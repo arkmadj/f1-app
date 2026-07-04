@@ -42,7 +42,7 @@ describe("Footer", () => {
     ).toHaveAttribute("href", "https://github.com/jolpica/jolpica-f1");
     expect(
       within(footer).getByRole("link", { name: /view source on github/i })
-    ).toHaveAttribute("href", "https://github.com/ItzAle/f1-app");
+    ).toHaveAttribute("href", "https://github.com/arkmadj/f1-app");
   });
 
   it("preserves the selected season in footer quick links", async () => {
@@ -84,6 +84,6 @@ describe("Footer", () => {
     ).toHaveAttribute("href", "/driverstandings?season=2026");
     expect(
       within(footer).getByRole("link", { name: /ver código fuente en github/i })
-    ).toHaveAttribute("href", "https://github.com/ItzAle/f1-app");
+    ).toHaveAttribute("href", "https://github.com/arkmadj/f1-app");
   });
 });

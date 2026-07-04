@@ -6,7 +6,7 @@ function ExternalLink(): JSX.Element {
 
   return (
     <a
-      href="https://github.com/ItzAle/f1-app"
+      href="https://github.com/arkmadj/f1-app"
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t("footer.sourceLinkAriaLabel")}
