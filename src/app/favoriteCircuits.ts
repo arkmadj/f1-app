@@ -1,4 +1,4 @@
-export const favoriteCircuitsStorageKey = "f1-app-two-favorite-circuits";
+export const favoriteCircuitsStorageKey = "f1-app-favorite-circuits";
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === "string");

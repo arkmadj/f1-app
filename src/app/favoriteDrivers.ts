@@ -1,4 +1,4 @@
-export const favoriteDriversStorageKey = "f1-app-two-favorite-drivers";
+export const favoriteDriversStorageKey = "f1-app-favorite-drivers";
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === "string");

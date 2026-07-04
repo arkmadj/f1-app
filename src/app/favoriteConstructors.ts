@@ -1,5 +1,5 @@
 export const favoriteConstructorsStorageKey =
-  "f1-app-two-favorite-constructors";
+  "f1-app-favorite-constructors";
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === "string");

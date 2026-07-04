@@ -8,7 +8,7 @@ import esCommon from "../locales/es/common.json";
 export const fallbackLanguage = "en";
 export const supportedLanguages = ["en", "es"] as const;
 export type SupportedLanguage = (typeof supportedLanguages)[number];
-export const languageStorageKey = "f1-app-two-language";
+export const languageStorageKey = "f1-app-language";
 
 const resources = {
   en: { common: enCommon },

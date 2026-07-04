@@ -3,7 +3,7 @@ export interface AppPreferences {
   showSplashScreen: boolean;
 }
 
-export const appPreferencesStorageKey = "f1-app-two-preferences";
+export const appPreferencesStorageKey = "f1-app-preferences";
 
 export const defaultAppPreferences: AppPreferences = {
   reduceMotion: false,
