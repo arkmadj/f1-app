@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios from "axios";
 import teamsService from "./constructorsApi";
+import { DEFAULT_SEASON } from "../../domain/f1/seasons";
 
 vi.mock("axios", () => {
   const get = vi.fn();
@@ -31,7 +32,7 @@ describe("services/api/constructorsApi", () => {
     const data = await teamsService.getAll();
 
     expect(axios.get).toHaveBeenCalledTimes(1);
-    expect(axios.get).toHaveBeenCalledWith("/2024/constructorStandings.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/constructorStandings.json`);
     expect(data).toEqual({ MRData: { StandingsTable: {} } });
   });
 
@@ -73,11 +74,12 @@ describe("services/api/constructorsApi", () => {
     expect(standings?.round).toBe("4");
   });
 
-  it("getConstructorStandingsTimeline combines the race calendar with round standings", async () => {
+  it("getConstructorStandingsTimeline derives cumulative standings from bulk results", async () => {
     axios.get
       .mockResolvedValueOnce({
         data: {
           MRData: {
+            total: "4",
             RaceTable: {
               Races: [
                 {
@@ -85,30 +87,38 @@ describe("services/api/constructorsApi", () => {
                   round: "1",
                   raceName: "Bahrain GP",
                   date: "2023-03-05",
+                  Results: [
+                    {
+                      position: "1",
+                      points: "25",
+                      Driver: { driverId: "max_verstappen" },
+                      Constructor: { constructorId: "red_bull" },
+                    },
+                    {
+                      position: "2",
+                      points: "18",
+                      Driver: { driverId: "leclerc" },
+                      Constructor: { constructorId: "ferrari" },
+                    },
+                  ],
                 },
                 {
                   season: "2023",
                   round: "2",
                   raceName: "Saudi Arabian GP",
                   date: "2023-03-19",
-                },
-              ],
-            },
-          },
-        },
-      })
-      .mockResolvedValueOnce({
-        data: {
-          MRData: {
-            StandingsTable: {
-              StandingsLists: [
-                {
-                  season: "2023",
-                  round: "1",
-                  ConstructorStandings: [
+                  Results: [
                     {
-                      points: "43",
+                      position: "1",
+                      points: "25",
+                      Driver: { driverId: "max_verstappen" },
                       Constructor: { constructorId: "red_bull" },
+                    },
+                    {
+                      position: "2",
+                      points: "18",
+                      Driver: { driverId: "leclerc" },
+                      Constructor: { constructorId: "ferrari" },
                     },
                   ],
                 },
@@ -120,15 +130,26 @@ describe("services/api/constructorsApi", () => {
       .mockResolvedValueOnce({
         data: {
           MRData: {
-            StandingsTable: {
-              StandingsLists: [
+            total: "2",
+            RaceTable: {
+              Races: [
                 {
                   season: "2023",
                   round: "2",
-                  ConstructorStandings: [
+                  raceName: "Saudi Arabian GP",
+                  date: "2023-03-19",
+                  SprintResults: [
                     {
-                      points: "87",
+                      position: "1",
+                      points: "8",
+                      Driver: { driverId: "max_verstappen" },
                       Constructor: { constructorId: "red_bull" },
+                    },
+                    {
+                      position: "2",
+                      points: "7",
+                      Driver: { driverId: "leclerc" },
+                      Constructor: { constructorId: "ferrari" },
                     },
                   ],
                 },
@@ -140,14 +161,12 @@ describe("services/api/constructorsApi", () => {
 
     const timeline = await teamsService.getConstructorStandingsTimeline("2023");
 
-    expect(axios.get).toHaveBeenNthCalledWith(1, "/2023.json");
-    expect(axios.get).toHaveBeenNthCalledWith(
-      2,
-      "/2023/1/constructorStandings.json"
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(axios.get).toHaveBeenCalledWith(
+      "/2023/results.json?limit=100&offset=0"
     );
-    expect(axios.get).toHaveBeenNthCalledWith(
-      3,
-      "/2023/2/constructorStandings.json"
+    expect(axios.get).toHaveBeenCalledWith(
+      "/2023/sprint.json?limit=100&offset=0"
     );
     expect(timeline).toEqual([
       {
@@ -156,7 +175,20 @@ describe("services/api/constructorsApi", () => {
         raceName: "Bahrain GP",
         date: "2023-03-05",
         ConstructorStandings: [
-          { points: "43", Constructor: { constructorId: "red_bull" } },
+          {
+            position: "1",
+            positionText: "1",
+            points: "25",
+            wins: "1",
+            Constructor: { constructorId: "red_bull", nationality: "" },
+          },
+          {
+            position: "2",
+            positionText: "2",
+            points: "18",
+            wins: "0",
+            Constructor: { constructorId: "ferrari", nationality: "" },
+          },
         ],
       },
       {
@@ -165,10 +197,63 @@ describe("services/api/constructorsApi", () => {
         raceName: "Saudi Arabian GP",
         date: "2023-03-19",
         ConstructorStandings: [
-          { points: "87", Constructor: { constructorId: "red_bull" } },
+          {
+            position: "1",
+            positionText: "1",
+            points: "58",
+            wins: "2",
+            Constructor: { constructorId: "red_bull", nationality: "" },
+          },
+          {
+            position: "2",
+            positionText: "2",
+            points: "43",
+            wins: "0",
+            Constructor: { constructorId: "ferrari", nationality: "" },
+          },
         ],
       },
     ]);
+  });
+
+  it("getAllSeasonStandings fetches all-season standings in a single request", async () => {
+    axios.get.mockResolvedValueOnce({
+      data: {
+        MRData: {
+          total: "2",
+          StandingsTable: {
+            constructorId: "ferrari",
+            StandingsLists: [
+              {
+                season: "2024",
+                round: "24",
+                ConstructorStandings: [
+                  { position: "3", positionText: "3", points: "652", wins: "5", Constructor: { constructorId: "ferrari", name: "Ferrari", nationality: "Italian" } },
+                ],
+              },
+              {
+                season: "2023",
+                round: "22",
+                ConstructorStandings: [
+                  { position: "2", positionText: "2", points: "406", wins: "0", Constructor: { constructorId: "ferrari", name: "Ferrari", nationality: "Italian" } },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    const result = await teamsService.getAllSeasonStandings("ferrari");
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get).toHaveBeenCalledWith(
+      "/constructors/ferrari/constructorStandings.json?limit=100"
+    );
+    expect(result).toHaveLength(2);
+    expect(result[0].season).toBe("2024");
+    expect(result[0].ConstructorStandings[0].position).toBe("3");
+    expect(result[1].season).toBe("2023");
   });
 
   it("getbyId requests the Jolpica constructors endpoint", async () => {
@@ -177,7 +262,7 @@ describe("services/api/constructorsApi", () => {
     const data = await teamsService.getbyId("ferrari");
 
     expect(axios.get).toHaveBeenCalledTimes(1);
-    expect(axios.get).toHaveBeenCalledWith("/2024/constructors/ferrari.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/constructors/ferrari.json`);
     expect(data).toEqual({ ok: true });
   });
 
@@ -207,7 +292,7 @@ describe("services/api/constructorsApi", () => {
 
     const drivers = await teamsService.getDriversByConstructor("ferrari");
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/driverStandings.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/driverStandings.json`);
     expect(drivers).toHaveLength(1);
     expect(drivers[0].Driver.driverId).toBe("leclerc");
   });
@@ -220,7 +305,7 @@ describe("services/api/constructorsApi", () => {
     await expect(teamsService.getDriversByConstructor("ferrari")).rejects.toBe(
       err
     );
-    expect(axios.get).toHaveBeenCalledWith("/2024/driverStandings.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/driverStandings.json`);
 
     spy.mockRestore();
   });

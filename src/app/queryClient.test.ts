@@ -8,7 +8,7 @@ describe("app/queryClient", () => {
     expect(queryClientDefaultOptions.queries?.refetchOnWindowFocus).toBe(false);
     expect(queryClientDefaultOptions.queries?.refetchOnReconnect).toBe(true);
     expect(queryClientDefaultOptions.queries?.refetchOnMount).toBe(false);
-    expect(queryClientDefaultOptions.queries?.retry).toBe(2);
+    expect(queryClientDefaultOptions.queries?.retry).toBe(false);
     expect(queryClientDefaultOptions.queries?.throwOnError).toBe(true);
     expect(queryClientDefaultOptions.mutations?.retry).toBe(0);
   });
@@ -30,9 +30,6 @@ describe("app/queryClient", () => {
     );
     expect(defaults.mutations?.retry).toBe(
       queryClientDefaultOptions.mutations?.retry
-    );
-    expect(defaults.queries?.retryDelay?.(2)).toBe(
-      queryClientDefaultOptions.queries?.retryDelay?.(2)
     );
   });
 });
