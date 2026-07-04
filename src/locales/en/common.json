@@ -1,0 +1,805 @@
+{
+  "app": {
+    "name": "F1 APP TWO"
+  },
+  "language": {
+    "en": "English",
+    "es": "Spanish",
+    "selectAriaLabel": "Select app language",
+    "selectorDescription": "Interface text",
+    "selectorLabel": "Language"
+  },
+  "settings": {
+    "buttonText": "Settings",
+    "closeButtonLabel": "Close settings",
+    "description": "Tune display, season, and launch behavior.",
+    "eyebrow": "Preferences",
+    "openButtonLabel": "Open settings",
+    "reduceMotionDescription": "Minimize transitions and animated effects across the app.",
+    "reduceMotionLabel": "Reduce motion",
+    "showSplashDescription": "Play the intro animation the next time the app opens.",
+    "showSplashLabel": "Show splash screen on launch",
+    "themeDescription": "Switch between light and dark pit-wall views.",
+    "themeLabel": "Color theme",
+    "title": "Settings"
+  },
+  "footer": {
+    "builtForBrowsing": "Built for faster race-weekend browsing.",
+    "copyright": "© {{year}} F1 App",
+    "dataDescription": "Transparent data attribution and open-source access for curious fans and contributors.",
+    "dataTitle": "Data & source",
+    "exploreHeading": "Explore",
+    "notAffiliated": "Not affiliated with Formula 1",
+    "poweredBy": "Powered by",
+    "quickLinksAriaLabel": "Footer quick links",
+    "sourceLinkAriaLabel": "View source on GitHub",
+    "tagline": "Track the season with quick access to standings, schedules, and race-weekend results from one polished pit wall.",
+    "links": {
+      "compareDriversDescription": "Inspect head-to-head form",
+      "constructorStandingsDescription": "Compare every team",
+      "driverStandingsDescription": "Follow the title fight",
+      "raceResultsDescription": "Review every round",
+      "scheduleLabel": "Schedule",
+      "scheduleDescription": "Plan race weekends"
+    }
+  },
+  "nav": {
+    "closeMenu": "Close menu",
+    "homeAriaLabel": "{{appName}} — home",
+    "logoAlt": "{{appName}} logo",
+    "mobileHint": "Tap a destination to keep your season selection and continue.",
+    "mobilePrimaryAriaLabel": "Mobile primary",
+    "openMenu": "Open menu",
+    "primaryAriaLabel": "Primary",
+    "raceControl": "Race control",
+    "submenuAriaLabel": "{{label}} submenu",
+    "theme": "Theme",
+    "groups": {
+      "comparisons": "Comparisons",
+      "standings": "Standings"
+    },
+    "items": {
+      "calendar": "Calendar",
+      "compareConstructors": "Compare Constructors",
+      "compareDrivers": "Compare Drivers",
+      "constructorStandings": "Constructor Standings",
+      "driverStandings": "Driver Standings",
+      "home": "Home",
+      "qualifying": "Qualifying",
+      "raceResults": "Race Results",
+      "races": "Races"
+    }
+  },
+  "calendar": {
+    "metaTitle": "Schedule",
+    "loading": "Loading schedule for {{season}}",
+    "eyebrow": "Full season overview",
+    "heading": "Race Events Calendar · {{season}}",
+    "description": "Plan the season at a glance with every Grand Prix, round number, circuit location, session date, and race status in chronological order.",
+    "summaryAriaLabel": "{{season}} calendar summary",
+    "noDates": "No dates yet",
+    "seasonComplete": "Season complete",
+    "error": "Error: {{message}}",
+    "timeTbc": "Time TBC",
+    "roundLabel": "Round {{round}}",
+    "roundsCount_one": "{{count}} round",
+    "roundsCount_other": "{{count}} rounds",
+    "raceDetailsAriaLabel": "View {{raceName}} details",
+    "circuitProfile": "Circuit profile",
+    "circuitProfileAriaLabel": "View {{circuitName}} circuit profile",
+    "addToCalendar": "Add to calendar",
+    "googleCalendarAriaLabel": "Add {{raceName}} to Google Calendar",
+    "downloadCalendarAriaLabel": "Download calendar file for {{raceName}}",
+    "showingCount": "Showing {{visible}} of {{total}} races",
+    "loadMore_one": "Load {{count}} more race",
+    "loadMore_other": "Load {{count}} more races",
+    "summary": {
+      "rounds": "Rounds",
+      "seasonWindow": "Season window",
+      "nextEvent": "Next event"
+    },
+    "status": {
+      "completed": "Completed",
+      "next": "Next race",
+      "upcoming": "Upcoming"
+    },
+    "empty": {
+      "title": "No race events scheduled",
+      "message": "There are no race events available for {{season}}. Try another season or check back when the calendar is updated."
+    },
+    "export": {
+      "detailsIntro": "Round {{round}} of the {{season}} Formula 1 season.",
+      "circuit": "Circuit: {{circuit}}.",
+      "moreInfo": "More info: {{url}}"
+    }
+  },
+  "races": {
+    "metaTitle": "Races",
+    "loading": "Loading races",
+    "heading": "Races · {{season}}",
+    "error": "Error: {{message}}",
+    "sort": {
+      "latestFirst": "Show races by latest",
+      "originalOrder": "Show races in original order"
+    },
+    "empty": {
+      "title": "No race results available",
+      "message": "There are no completed races to show for {{season}} yet. Results will appear here once a Grand Prix has finished."
+    },
+    "circuitProfile": "Circuit profile",
+    "circuitProfileAriaLabel": "View circuit profile for {{circuitId}}"
+  },
+  "driverStandings": {
+    "metaTitle": "Driver Standings",
+    "loading": "Loading driver standings",
+    "heading": "Driver Standings · {{season}}",
+    "exportCsv": "Export CSV",
+    "exportAriaLabel": "Download driver standings table data for {{season}}",
+    "teamLabel": "Team",
+    "gapLabel": "Gap",
+    "gapToLeader": "Leader {{gap}}",
+    "gapToAhead": "Ahead {{gap}}",
+    "pointsCompact": "{{points}}PTS",
+    "positionChange": {
+      "gained_one": "Gained {{count}} place",
+      "gained_other": "Gained {{count}} places",
+      "lost_one": "Lost {{count}} place",
+      "lost_other": "Lost {{count}} places",
+      "unchanged": "No change from previous round"
+    },
+    "columns": {
+      "position": "Position",
+      "driver": "Driver",
+      "team": "Team",
+      "gapToLeader": "Gap to leader",
+      "gapToAhead": "Gap to ahead",
+      "points": "Points",
+      "wins": "Wins"
+    },
+    "empty": {
+      "title": "No driver standings available",
+      "message": "We could not find driver standings for the {{season}} season yet. Try another season or check back after the next race weekend."
+    },
+    "records": {
+      "ariaLabel": "Driver records",
+      "mostWins": "Most wins this season",
+      "mostPodiums": "Most podiums this season",
+      "mostSprintWins": "Most sprint wins this season",
+      "mostPoles": "Most poles this season",
+      "mostDnfs": "Most DNFs this season",
+      "winsValue_one": "{{count}} Grand Prix win",
+      "winsValue_other": "{{count}} Grand Prix wins",
+      "podiumsValue_one": "{{count}} podium finish",
+      "podiumsValue_other": "{{count}} podium finishes",
+      "sprintWinsValue_one": "{{count}} sprint win",
+      "sprintWinsValue_other": "{{count}} sprint wins",
+      "polesValue_one": "{{count}} pole position",
+      "polesValue_other": "{{count}} pole positions",
+      "dnfsValue_one": "{{count}} DNF",
+      "dnfsValue_other": "{{count}} DNFs"
+    },
+    "progression": {
+      "eyebrow": "Season trajectory",
+      "heading": "Ranking progression",
+      "description": "Follow every classified driver as their championship ranking changes after each race. Hover or focus a marker for round details.",
+      "loading": "Loading ranking progression chart…",
+      "unavailable": "Round-by-round ranking data is unavailable for this season right now.",
+      "chartAriaLabel": "Driver championship ranking progression by round",
+      "markerAriaLabel": "Round {{round}}, {{raceName}}, {{driverName}}: position {{position}}",
+      "selectedRound": "Selected round",
+      "dateUnavailable": "Date unavailable",
+      "positionLabel": "P{{position}}",
+      "roundLabel": "R{{round}}",
+      "standingSummary": "P{{position}} · {{points}} pts"
+    }
+  },
+  "driverComparison": {
+    "metaTitle": "Driver Comparison",
+    "loading": "Loading driver comparison",
+    "dateUnavailable": "Date unavailable",
+    "pointsDisplay": "{{points}} pts",
+    "positionLabel": "P{{position}}",
+    "roundLabel": "R{{round}}",
+    "versusAbbreviation": "VS",
+    "selectedDriversAriaLabel": "Selected drivers",
+    "units": {
+      "place_one": "{{formattedCount}} place",
+      "place_other": "{{formattedCount}} places",
+      "point_one": "{{formattedCount}} point",
+      "point_other": "{{formattedCount}} points",
+      "win_one": "{{formattedCount}} win",
+      "win_other": "{{formattedCount}} wins",
+      "radarPoint_one": "{{formattedCount}} radar point",
+      "radarPoint_other": "{{formattedCount}} radar points"
+    },
+    "hero": {
+      "eyebrow": "Driver comparison · {{season}}",
+      "heading": "Compare drivers side by side",
+      "description": "Pick any two drivers from the standings to compare ranking, points, wins, team details, nationality, and profile links in one race-control view."
+    },
+    "selectors": {
+      "driverOne": "Driver one",
+      "driverTwo": "Driver two"
+    },
+    "summary": {
+      "independentTeam": "Independent",
+      "nationalityUnavailable": "Nationality unavailable",
+      "portraitAlt": "{{driver}} portrait",
+      "points": "Points",
+      "wins": "Wins",
+      "number": "Number",
+      "age": "Age",
+      "viewProfile": "View profile"
+    },
+    "share": {
+      "title": "{{leftName}} vs {{rightName}}",
+      "text": "Compare {{leftName}} and {{rightName}} in the {{season}} F1 standings.",
+      "button": "Share comparison",
+      "copiedButton": "Link copied",
+      "status": {
+        "idle": "Share this exact driver matchup with the current season and selections.",
+        "shared": "Share sheet opened for this comparison.",
+        "copied": "Comparison link copied to clipboard.",
+        "error": "Unable to share right now. Please copy the URL from your browser."
+      }
+    },
+    "metrics": {
+      "championshipPosition": "Championship position",
+      "pointsScored": "Points scored",
+      "raceWins": "Race wins",
+      "evenlyMatched": "Evenly matched",
+      "leaderSummary": "{{leader}} leads by {{delta}}"
+    },
+    "radar": {
+      "eyebrow": "Statistical radar",
+      "heading": "Driver strengths",
+      "description": "Scores compare rank, points, wins, recent form, and consistency on a 0–100 scale for the {{season}} matchup.",
+      "chartAriaLabel": "{{leftName}} and {{rightName}} {{season}} strength radar chart",
+      "scoreScale": "0–100",
+      "neitherDriver": "Neither driver",
+      "biggestEdge": "Biggest edge: {{leader}} on {{metric}} by {{delta}}.",
+      "noBiggestEdge": "No single biggest edge: both drivers are level across the radar scores.",
+      "timelineLoading": "Recent form and consistency will refresh when round-by-round standings finish loading.",
+      "scoreSummary": "{{display}} · {{score}}/100",
+      "recentPointsDisplay": "{{points}} pts recent",
+      "averagePositionDisplay": "Avg P{{position}}",
+      "metrics": {
+        "championshipRank": {
+          "label": "Championship rank",
+          "description": "Current standings position, where lower rank is stronger."
+        },
+        "pointsHaul": {
+          "label": "Points haul",
+          "description": "Total season points normalized between the selected pair."
+        },
+        "winConversion": {
+          "label": "Win conversion",
+          "description": "Grand prix wins converted into a comparative strength score."
+        },
+        "recentForm": {
+          "label": "Recent form",
+          "description": "Points gained across the most recent five rounds available.",
+          "loadingDescription": "Season points used until round-by-round standings are loaded."
+        },
+        "consistency": {
+          "label": "Consistency",
+          "description": "Average championship position across the available season timeline.",
+          "loadingDescription": "Current rank used until round-by-round standings are loaded."
+        }
+      }
+    },
+    "pointsEvolution": {
+      "eyebrow": "Season trajectory",
+      "heading": "Points evolution",
+      "loading": "Loading points evolution chart…",
+      "unavailable": "Round-by-round points data is unavailable for this season right now.",
+      "description": "Hover or focus any round marker to compare cumulative points after each Grand Prix.",
+      "chartAriaLabel": "{{leftName}} and {{rightName}} cumulative points by round",
+      "markerAriaLabel_one": "Round {{round}}, {{raceName}}, {{driverName}}: {{points}} point",
+      "markerAriaLabel_other": "Round {{round}}, {{raceName}}, {{driverName}}: {{points}} points",
+      "selectedRound": "Selected round"
+    },
+    "performance": {
+      "eyebrow": "Performance snapshot",
+      "description": "Bars normalize the selected pair only, making close gaps easy to spot."
+    },
+    "empty": {
+      "title": "Not enough drivers to compare",
+      "message": "We need at least two classified drivers in the {{season}} standings before a side-by-side comparison can be built."
+    }
+  },
+  "constructorComparison": {
+    "metaTitle": "Constructor Comparison",
+    "loading": "Loading constructor comparison",
+    "dateUnavailable": "Date unavailable",
+    "pointsDisplay": "{{points}} pts",
+    "positionLabel": "P{{position}}",
+    "roundLabel": "R{{round}}",
+    "versusAbbreviation": "VS",
+    "matchupTitle": "{{leftName}} vs {{rightName}}",
+    "selectedConstructorsAriaLabel": "Selected constructors",
+    "units": {
+      "place_one": "{{formattedCount}} place",
+      "place_other": "{{formattedCount}} places",
+      "point_one": "{{formattedCount}} point",
+      "point_other": "{{formattedCount}} points",
+      "win_one": "{{formattedCount}} win",
+      "win_other": "{{formattedCount}} wins",
+      "podium_one": "{{formattedCount}} podium",
+      "podium_other": "{{formattedCount}} podiums",
+      "driver_one": "{{formattedCount}} driver",
+      "driver_other": "{{formattedCount}} drivers",
+      "radarPoint_one": "{{formattedCount}} radar point",
+      "radarPoint_other": "{{formattedCount}} radar points"
+    },
+    "hero": {
+      "eyebrow": "Constructor comparison · {{season}}",
+      "heading": "Compare constructors side by side",
+      "description": "Pick any two teams from the standings to compare ranking, points, wins, classified drivers, lead-driver pace, and profile links in a clean head-to-head view."
+    },
+    "selectors": {
+      "constructorOne": "Constructor one",
+      "constructorTwo": "Constructor two"
+    },
+    "summary": {
+      "campaignSubtitle": "Constructor championship campaign",
+      "classifiedDrivers_one": "{{formattedCount}} classified driver",
+      "classifiedDrivers_other": "{{formattedCount}} classified drivers",
+      "logoAlt": "{{team}} logo",
+      "points": "Points",
+      "wins": "Wins",
+      "drivers": "Drivers",
+      "averagePerDriver": "Avg / driver",
+      "leadDriver": "Lead driver",
+      "leadDriverUnavailable": "Driver classification unavailable",
+      "driverPoints": "{{points}} pts",
+      "classifiedDriversHeading": "Classified drivers",
+      "driverPill": "{{familyName}} · {{points}} pts",
+      "driversUnavailable": "Driver classification is still loading or unavailable for this constructor.",
+      "teamStanding": "Team standing: P{{position}} with {{points}} points",
+      "viewProfile": "View profile"
+    },
+    "share": {
+      "title": "{{leftName}} vs {{rightName}}",
+      "text": "Compare {{leftName}} and {{rightName}} in the {{season}} F1 constructor standings.",
+      "button": "Share comparison",
+      "copiedButton": "Link copied",
+      "status": {
+        "idle": "Share this exact constructor matchup with the current season and selections.",
+        "shared": "Share sheet opened for this comparison.",
+        "copied": "Comparison link copied to clipboard.",
+        "error": "Unable to share right now. Please copy the URL from your browser."
+      }
+    },
+    "metrics": {
+      "championshipPosition": "Championship position",
+      "pointsScored": "Points scored",
+      "raceWins": "Race wins",
+      "podiumFinishes": "Podium finishes",
+      "classifiedDrivers": "Classified drivers",
+      "averagePointsPerDriver": "Average points per driver",
+      "bestPlacedDriver": "Best-placed driver",
+      "evenlyMatched": "Evenly matched",
+      "leaderSummary": "{{leader}} leads by {{delta}}"
+    },
+    "radar": {
+      "eyebrow": "Statistical radar",
+      "heading": "Team strengths",
+      "description": "Scores compare rank, points, wins, average output, recent form, and consistency on a 0–100 scale for the {{season}} matchup.",
+      "chartAriaLabel": "{{leftName}} and {{rightName}} {{season}} constructor strength radar chart",
+      "scoreScale": "0–100",
+      "neitherTeam": "Neither team",
+      "biggestEdge": "Biggest edge: {{leader}} on {{metric}} by {{delta}}.",
+      "noBiggestEdge": "No single biggest edge: both teams are level across the radar scores.",
+      "timelineLoading": "Recent form and consistency will refresh when round-by-round standings finish loading.",
+      "scoreSummary": "{{display}} · {{score}}/100",
+      "recentPointsDisplay": "{{points}} pts recent",
+      "averagePositionDisplay": "Avg P{{position}}",
+      "pointsPerDriverDisplay": "{{points}} pts/driver",
+      "metrics": {
+        "championshipRank": {
+          "label": "Championship rank",
+          "description": "Current standings position, where a lower rank is stronger."
+        },
+        "pointsHaul": {
+          "label": "Points haul",
+          "description": "Total constructor points normalized between the selected pair."
+        },
+        "winConversion": {
+          "label": "Win conversion",
+          "description": "Grand prix wins turned into a comparative strength score."
+        },
+        "averageOutput": {
+          "label": "Average output",
+          "description": "Average points per classified driver, showing how efficiently each lineup converts entries into points."
+        },
+        "recentForm": {
+          "label": "Recent form",
+          "description": "Points gained across the most recent five rounds available.",
+          "loadingDescription": "Season points used until round-by-round constructor standings are loaded."
+        },
+        "consistency": {
+          "label": "Consistency",
+          "description": "Average championship position across the available season timeline.",
+          "loadingDescription": "Current rank used until round-by-round constructor standings are loaded."
+        }
+      }
+    },
+    "pointsProgression": {
+      "eyebrow": "Season trajectory",
+      "heading": "Points progression",
+      "loading": "Loading round-by-round constructor points…",
+      "unavailable": "Round-by-round constructor points are unavailable for this season right now.",
+      "description": "Track cumulative constructor points after each race to see where the selected teams gained or lost momentum.",
+      "chartAriaLabel": "Constructor championship points progression by round",
+      "markerAriaLabel_one": "Round {{round}}, {{raceName}}, {{constructorName}}: {{points}} point, position {{position}}",
+      "markerAriaLabel_other": "Round {{round}}, {{raceName}}, {{constructorName}}: {{points}} points, position {{position}}",
+      "selectedRound": "Selected round",
+      "standingSummary": "P{{position}} · {{points}} pts"
+    },
+    "performance": {
+      "eyebrow": "Performance snapshot",
+      "description": "Bars normalize the selected pair only, making close constructor gaps easy to spot."
+    },
+    "empty": {
+      "title": "Not enough constructors to compare",
+      "message": "We need at least two classified constructors in the {{season}} standings before a side-by-side comparison can be built."
+    }
+  },
+  "constructorStandings": {
+    "metaTitle": "Constructor Standings",
+    "loading": "Loading constructor standings",
+    "seasonLabel": "{{season}} season",
+    "heading": "Constructor Standings",
+    "exportCsv": "Export CSV",
+    "exportAriaLabel": "Download constructor standings table data for {{season}}",
+    "summary_one": "{{count}} constructor ranked by points",
+    "summary_other": "{{count}} constructors ranked by points",
+    "constructorAriaLabel": "View {{team}} constructor details",
+    "logoAlt": "{{team}} logo",
+    "gapLabel": "Gap",
+    "gapToLeader": "Leader {{gap}}",
+    "gapToAhead": "Ahead {{gap}}",
+    "positionChange": {
+      "gained_one": "Gained {{count}} place",
+      "gained_other": "Gained {{count}} places",
+      "lost_one": "Lost {{count}} place",
+      "lost_other": "Lost {{count}} places",
+      "unchanged": "No change from previous round"
+    },
+    "pointsAbbreviation": "pts",
+    "winsLabel": "wins",
+    "columns": {
+      "position": "Position",
+      "team": "Team",
+      "positionChange": "Positions gained/lost",
+      "gapToLeader": "Gap to leader",
+      "gapToAhead": "Gap to ahead",
+      "points": "Points",
+      "wins": "Wins"
+    },
+    "empty": {
+      "title": "No constructor standings available",
+      "message": "We could not find constructor standings for the {{season}} season yet. Try another season or check back after the next race weekend."
+    },
+    "spotlight": {
+      "eyebrow": "Season spotlight",
+      "heading": "Constructor standouts",
+      "description": "A quick look at the leading teams across {{season}}.",
+      "mostRaceWins": "Most race wins",
+      "mostPolePositions": "Most pole positions",
+      "mostPodiumFinishes": "Most podium finishes",
+      "mostDnfs": "Most DNFs",
+      "mostPenalties": "Most penalties",
+      "winsDescription": "{{team}} leads the field in {{season}}.",
+      "polesDescription": "{{team}} leads qualifying in {{season}}.",
+      "podiumsDescription": "{{team}} reaches the top three most often in {{season}}.",
+      "dnfsDescription": "{{team}} recorded the most DNFs in {{season}}.",
+      "penaltiesDescription": "{{team}} took the most grid penalties in {{season}}.",
+      "values": {
+        "raceWins": "race wins",
+        "polePositions": "pole positions",
+        "podiumFinishes": "podium finishes",
+        "dnfs": "DNFs",
+        "gridPenalties": "grid penalties"
+      }
+    }
+  },
+  "driverRaceDetails": {
+    "metaTitle": "Driver Race Details",
+    "loading": "Loading driver race details",
+    "error": "Error: Driver race details are unavailable",
+    "dateTbc": "Date TBC",
+    "statusTbc": "Status TBC",
+    "constructorTbc": "Constructor TBC",
+    "gridTbc": "Grid TBC",
+    "fastestLapNotRecorded": "Not recorded",
+    "startingPosition": "Starting position",
+    "compoundsFitted": "Compounds fitted at recorded pit stops",
+    "backToRaceResults": "Back to race results",
+    "backToRaceResultsWithArrow": "← Back to race results",
+    "driverProfile": "Driver profile",
+    "eyebrow": "Driver race details",
+    "roundLabel": "{{season}} Round {{round}}",
+    "classified": "Classified {{positionText}}",
+    "pointsValue": "{{points}} pts",
+    "lapsCompleted": "{{laps}} laps completed",
+    "lapDetail": "Lap {{lap}}",
+    "empty": {
+      "title": "Driver result not found",
+      "message": "No race result was found for this driver in {{season}} round {{round}}."
+    },
+    "stats": {
+      "finish": "Finish",
+      "constructor": "Constructor",
+      "points": "Points",
+      "grid": "Grid",
+      "fastestLap": "Fastest lap",
+      "pitStrategy": "Pit strategy",
+      "tireCompounds": "Tire compounds"
+    },
+    "strategy": {
+      "ariaLabel": "Tire strategy",
+      "timelineAriaLabel": "Tire strategy stint timeline",
+      "stintAriaLabel": "{{label}}: {{compound}}, {{lapCount}}",
+      "heading": "Tire strategy",
+      "description": "Stint order and estimated lap counts based on recorded pit stops.",
+      "unavailable": "Tire strategy data is unavailable for this driver.",
+      "openingStint": "Opening stint",
+      "stintLabel": "Stint {{number}}",
+      "compoundTbc": "Compound TBC",
+      "compoundDataUnavailable": "Compound data unavailable",
+      "lapCount_one": "{{count}} lap",
+      "lapCount_other": "{{count}} laps",
+      "lapCountTbc": "Lap count TBC",
+      "lapRangeTbc": "Lap range TBC",
+      "singleLap": "Lap {{lap}}",
+      "lapRange": "Laps {{start}}-{{end}}"
+    },
+    "context": {
+      "ariaLabel": "Race context",
+      "heading": "Race context",
+      "circuitTbc": "Circuit TBC",
+      "statusLabel": "Race time/status: {{status}}"
+    },
+    "pitStops": {
+      "heading": "Pit stops",
+      "count_one": "{{count}} stop",
+      "count_other": "{{count}} stops",
+      "noStops": "No pit stops",
+      "bestStop": "Best stop {{duration}}s",
+      "dataUnavailable": "Pit stop data unavailable",
+      "details": "Stop {{stop}} · Lap {{lap}} · {{duration}} · {{compound}}",
+      "duration": "{{duration}}s",
+      "durationTbc": "Duration TBC",
+      "empty": "No pit stop data is available for this driver."
+    },
+    "compounds": {
+      "soft": "Soft",
+      "medium": "Medium",
+      "hard": "Hard",
+      "intermediate": "Intermediate",
+      "wet": "Wet"
+    }
+  },
+  "qualifying": {
+    "metaTitle": "Qualifying",
+    "loading": "Loading qualifying sessions for {{season}}",
+    "error": "Error: {{message}}",
+    "hero": {
+      "eyebrow": "{{season}} session archive",
+      "heading": "Qualifying · {{season}}",
+      "description": "Browse completed qualifying sessions, compare race weekends, and jump into full session results with a cleaner, race-card layout."
+    },
+    "summary": {
+      "completed": "Completed",
+      "view": "View",
+      "viewModes": {
+        "latest": "Latest",
+        "chronological": "Chronological"
+      }
+    },
+    "sort": {
+      "latestFirst": "Show latest first",
+      "chronologicalOrder": "Show chronological order"
+    },
+    "performance": {
+      "eyebrow": "Driver comparison",
+      "heading": "Qualifying performance",
+      "description": "Compare average starting position for the top {{count}} drivers across completed {{season}} qualifying sessions. Lower positions are better.",
+      "chartAriaLabel": "{{season}} driver qualifying average position comparison chart",
+      "bestAverage": "Best average",
+      "bestAverageSummary": "{{average}} · best {{bestPosition}}",
+      "poleLeader": "Pole leader",
+      "poles_one": "{{count}} pole",
+      "poles_other": "{{count}} poles",
+      "sessionsTracked": "Sessions tracked",
+      "driversCompared_one": "{{count}} driver compared",
+      "driversCompared_other": "{{count}} drivers compared",
+      "selectedDriver": "Selected driver",
+      "average": "Average",
+      "range": "Range",
+      "rangeDisplay": "{{best}}–{{worst}}",
+      "q3Rate": "Q3 rate",
+      "markerAriaLabel": "{{driver}}: average qualifying position {{average}}, best {{bestPosition}}, {{poles}}"
+    },
+    "list": {
+      "heading": "Completed sessions",
+      "latestFirstDescription": "Newest qualifying sessions are shown first.",
+      "chronologicalDescription": "Sessions are shown in calendar order.",
+      "ariaLabel": "Completed qualifying sessions",
+      "roundLabel": "Round {{round}}",
+      "viewResults": "View results"
+    },
+    "empty": {
+      "title": "No qualifying sessions available",
+      "message": "There are no completed qualifying sessions to show for {{season}} yet. Session results will appear here after qualifying is complete."
+    }
+  },
+  "qualifyingResults": {
+    "metaTitle": "Qualifying Results",
+    "loading": "Loading qualifying results",
+    "eyebrow": "{{season}} qualifying classification",
+    "heading": "Round {{round}} Qualifying Results",
+    "description": "Session-by-session lap times with driver, constructor, and same-round tire strategy context.",
+    "viewRaceResults": "View Race Results",
+    "summaryAriaLabel": "Qualifying summary",
+    "exportCsv": "Export CSV",
+    "exportAriaLabel": "Download qualifying results table data for {{season}} round {{round}}",
+    "error": "Error: {{message}}",
+    "empty": {
+      "title": "No qualifying results available",
+      "message": "Qualifying results for {{season}} round {{round}} are not available yet. Check back after the session classification is published."
+    },
+    "summary": {
+      "entrants": "Entrants",
+      "poleSitter": "Pole sitter",
+      "poleTime": "Pole time"
+    },
+    "classification": {
+      "heading": "Full qualifying classification",
+      "description": "Missing times are shown as {{notAvailable}} when a driver did not progress. Tire strategy is based on recorded race pit stops when available."
+    },
+    "timeline": {
+      "ariaLabel": "Qualifying timeline",
+      "eyebrow": "Session timeline",
+      "heading": "How qualifying unfolded",
+      "description": "Key knockout moments derived from the published classification, ordered from Q1 to the pole shootout.",
+      "momentsCaptured_one": "{{count}} key moment",
+      "momentsCaptured_other": "{{count}} key moments",
+      "highlightLabel": "Key number",
+      "gapValue": "+{{gap}}s to the cut line",
+      "labels": {
+        "benchmark": "Benchmark",
+        "cutoff": "Cut line",
+        "pole": "Pole decided"
+      },
+      "benchmark": {
+        "headline": "{{driver}} set the {{session}} benchmark",
+        "summary": "{{driver}} led {{session}} for {{constructor}} with a {{time}}.",
+        "context": "Session-best lap"
+      },
+      "cutoff": {
+        "headline": "{{driver}} reached {{nextSession}} on the bubble",
+        "summaryWithGap": "{{driver}} advanced to {{nextSession}} with a {{time}}, edging out {{eliminatedDriver}} by {{gap}}s.",
+        "summary": "{{driver}} took the final place in {{nextSession}} with a {{time}}.",
+        "context_one": "P{{position}} was the final transfer spot; {{count}} driver was eliminated.",
+        "context_other": "P{{position}} was the final transfer spot; {{count}} drivers were eliminated."
+      },
+      "pole": {
+        "headline": "{{driver}} secured pole position",
+        "summary": "{{driver}} put {{constructor}} on pole with a {{time}} in Q3.",
+        "context": "Top three: {{topThree}}."
+      }
+    },
+    "columns": {
+      "position": "Position",
+      "positionShort": "Pos",
+      "driver": "Driver",
+      "constructor": "Constructor",
+      "tireStrategy": "Tire strategy"
+    },
+    "sort": {
+      "fastestFirst": "Sort by {{session}} time (fastest first)",
+      "slowestFirst": "Sort by {{session}} time (slowest first)",
+      "reset": "Reset qualifying classification order"
+    },
+    "tireStrategy": {
+      "stops_one": "{{count}} stop",
+      "stops_other": "{{count}} stops",
+      "laps": "Laps {{laps}}",
+      "lapDataTbc": "Lap data TBC",
+      "noStops": "No stops",
+      "unavailable": "Strategy unavailable",
+      "compoundUnavailable": "{{lapSummary}} · Compound data unavailable"
+    },
+    "tireCompounds": {
+      "soft": "Soft",
+      "medium": "Medium",
+      "hard": "Hard",
+      "intermediate": "Intermediate",
+      "wet": "Wet",
+      "superSoft": "Super Soft",
+      "ultraSoft": "Ultra Soft",
+      "hyperSoft": "Hyper Soft"
+    }
+  },
+  "sprintResults": {
+    "metaTitle": "Sprint Results",
+    "loading": "Loading sprint results for {{season}} round {{round}}",
+    "heading": "Sprint Race Results - {{season}} Round {{round}}",
+    "error": "Error: {{message}}",
+    "notAvailable": "N/A",
+    "pointsAbbreviation": "pts",
+    "fastestLapBadge": "Fastest lap",
+    "empty": {
+      "title": "No sprint results available",
+      "message": "Sprint results for {{season}} round {{round}} are not available yet. This round may not include a sprint session."
+    },
+    "summary": {
+      "eyebrow": "Sprint classification",
+      "heading": "Results table",
+      "entriesListed_one": "{{count}} entry listed",
+      "entriesListed_other": "{{count}} entries listed",
+      "fastestLap": "Fastest lap: {{driver}}"
+    },
+    "table": {
+      "caption": "Sprint classification for {{season}} round {{round}}",
+      "columns": {
+        "position": "Position",
+        "driver": "Driver",
+        "time": "Time",
+        "points": "Points"
+      }
+    }
+  },
+  "home": {
+    "metaTitle": "Home",
+    "quickActions": {
+      "compareConstructorsDescription": "Jump straight into a team-vs-team season comparison.",
+      "compareDriversDescription": "Open a head-to-head driver comparison for the selected season.",
+      "eyebrow": "Quick actions",
+      "heading": "Compare the grid in one click"
+    },
+    "raceCountdown": {
+      "countdown": "{{days}}d {{hours}}h {{minutes}}m {{seconds}}s",
+      "empty": "No upcoming races.",
+      "heading": "Next Race · {{season}}",
+      "loading": "Loading next race...",
+      "localSessionTime": "Local session time · {{timezone}}",
+      "startingNow": "Race is starting now!",
+      "timeTbd": "Time TBD",
+      "timezoneFallback": "Your local timezone"
+    },
+    "lastRaceResults": {
+      "heading": "Last Race Results · {{season}}",
+      "loading": "Loading last race results",
+      "error": "Error: {{message}}",
+      "empty": "No results found for the last race.",
+      "points": "{{value}} pts",
+      "notAvailable": "N/A",
+      "columns": {
+        "position": "Pos",
+        "driver": "Driver",
+        "team": "Team",
+        "timeOrStatus": "Time / Status",
+        "points": "Pts"
+      },
+      "position": {
+        "first": "1st",
+        "second": "2nd",
+        "third": "3rd",
+        "other": "{{position}}th"
+      }
+    },
+    "newsFeed": {
+      "eyebrow": "Latest news",
+      "heading": "Formula 1 headlines",
+      "viewAll": "View all on Formula1.com",
+      "loading": "Loading latest F1 news…",
+      "error": "Unable to load the latest F1 news right now.",
+      "emptyTitle": "No F1 news available",
+      "emptyMessage": "Fresh Formula 1 headlines will appear here as soon as they are available."
+    }
+  }
+}
