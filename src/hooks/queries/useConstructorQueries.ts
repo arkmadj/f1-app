@@ -8,7 +8,7 @@
 // `useConstructorStandings`, `select`).
 
 import { useMemo } from "react";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { queryKeys } from "../../services/api/queryKeys";
 import {
@@ -20,6 +20,7 @@ import teamsService from "../../services/api/constructorsApi";
 import type {
   ConstructorDetailResponse,
   ConstructorStanding,
+  ConstructorStandingsList,
   ConstructorStandingsResponse,
   ConstructorStandingsTimelineRound,
 } from "../../services/api/constructorsApi";
@@ -64,13 +65,8 @@ export interface UseConstructorCrossSeasonGalleryResult {
   error: Error | null;
 }
 
-const getGallerySeasons = (selectedSeason: Season): Season[] => {
-  const selectedYear = Number(selectedSeason);
-
-  return AVAILABLE_SEASONS.filter((season) => Number(season) <= selectedYear).map(
-    (season) => season as Season
-  );
-};
+// Seasons the app supports, as a Set, for O(1) membership checks.
+const AVAILABLE_SEASONS_SET = new Set<string>(AVAILABLE_SEASONS);
 
 export const useConstructorStandings = (
   season: Season = DEFAULT_SEASON,
@@ -87,42 +83,38 @@ export const useConstructorCrossSeasonGallery = (
   constructorId: string | undefined,
   season: Season = DEFAULT_SEASON
 ): UseConstructorCrossSeasonGalleryResult => {
-  const seasons = useMemo(() => getGallerySeasons(season), [season]);
-  const isEnabled = Boolean(constructorId);
-
-  const standingsQueries = useQueries({
-    queries: seasons.map((comparisonSeason) => ({
-      queryKey: queryKeys.constructors.standings(comparisonSeason),
-      queryFn: () => fetchConstructorStandings(comparisonSeason),
-      select: selectConstructorStandings,
-      enabled: isEnabled,
-    })),
+  // Single bulk request: /constructors/{id}/constructorStandings.json?limit=100
+  // returns end-of-season standings for every season the constructor competed in,
+  // replacing the previous N per-season requests.
+  const query = useQuery({
+    queryKey: queryKeys.constructors.allSeasonStandings(constructorId),
+    queryFn: () => teamsService.getAllSeasonStandings(constructorId as string),
+    enabled: Boolean(constructorId),
   });
 
-  const data = useMemo(() => {
-    if (!constructorId) {
-      return [];
-    }
+  const data = useMemo((): ConstructorCrossSeasonSnapshot[] => {
+    if (!constructorId || !query.data) return [];
 
-    return seasons
-      .map((comparisonSeason, index) => ({
-        season: comparisonSeason,
-        standing: (standingsQueries[index]?.data ?? []).find(
-          (entry) => entry.Constructor.constructorId === constructorId
-        ),
-      }))
-      .filter(({ standing }) => Boolean(standing));
-  }, [constructorId, seasons, standingsQueries]);
+    const selectedYear = Number(season);
 
-  const error =
-    standingsQueries.find((query) => query.error instanceof Error)?.error ?? null;
+    return (query.data as ConstructorStandingsList[])
+      .filter(
+        (list) =>
+          AVAILABLE_SEASONS_SET.has(list.season) &&
+          Number(list.season) <= selectedYear
+      )
+      .map((list) => ({
+        season: list.season as Season,
+        standing: list.ConstructorStandings[0],
+      }));
+  }, [constructorId, season, query.data]);
 
   return {
     data,
-    seasons,
-    isLoading: standingsQueries.some((query) => query.isLoading),
-    isError: standingsQueries.some((query) => query.isError),
-    error,
+    seasons: data.map((s) => s.season),
+    isLoading: query.isLoading,
+    isError: query.isError,
+    error: query.error,
   };
 };
 

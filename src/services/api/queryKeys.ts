@@ -30,6 +30,8 @@ export const queryKeys = {
       [...queryKeys.drivers.all, "standings", season] as const,
     standingsTimeline: (season: Season = DEFAULT_SEASON) =>
       [...queryKeys.drivers.standings(season), "timeline"] as const,
+    allSeasonStandings: (driverId: QueryKeyPart) =>
+      [...queryKeys.drivers.all, "allSeasonStandings", driverId] as const,
     details: () => [...queryKeys.drivers.all, "detail"] as const,
     detail: (id: QueryKeyPart, season: Season = DEFAULT_SEASON) =>
       [...queryKeys.drivers.details(), season, id] as const,
@@ -51,6 +53,8 @@ export const queryKeys = {
       [...queryKeys.constructors.all, "standings", season] as const,
     standingsTimeline: (season: Season = DEFAULT_SEASON) =>
       [...queryKeys.constructors.standings(season), "timeline"] as const,
+    allSeasonStandings: (constructorId: QueryKeyPart) =>
+      [...queryKeys.constructors.all, "allSeasonStandings", constructorId] as const,
     details: () => [...queryKeys.constructors.all, "detail"] as const,
     detail: (id: QueryKeyPart, season: Season = DEFAULT_SEASON) =>
       [...queryKeys.constructors.details(), season, id] as const,
@@ -126,6 +130,16 @@ export const queryKeys = {
       [...queryKeys.races.qualifyings(), season, "all"] as const,
     qualifying: (round: QueryKeyPart, season: Season = DEFAULT_SEASON) =>
       [...queryKeys.races.qualifyings(), season, round] as const,
+    driverQualifyingAll: (
+      driverId: QueryKeyPart,
+      season: Season = DEFAULT_SEASON
+    ) =>
+      [
+        ...queryKeys.races.qualifyings(),
+        season,
+        "driver",
+        driverId,
+      ] as const,
   },
 };
 

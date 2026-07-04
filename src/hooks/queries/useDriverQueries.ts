@@ -24,8 +24,8 @@ import type {
   ErgastDriver,
 } from "../../services/api/constructorsApi";
 import {
-  getAllQualifyingResults,
   getDriverRaceResults,
+  getDriverSeasonQualifyingResults,
   type QualifyingRaceWithResults,
   type RaceResult,
 } from "../../services/api/racesApi";
@@ -115,14 +115,16 @@ export const useDriverCrossSeasonComparison = (
   const seasons = useMemo(() => getComparisonSeasons(season), [season]);
   const isEnabled = Boolean(driverId);
 
-  const standingsQueries = useQueries({
-    queries: seasons.map((comparisonSeason) => ({
-      queryKey: queryKeys.drivers.standings(comparisonSeason),
-      queryFn: () => fetchDriverStandings(comparisonSeason),
-      select: selectDriverStandings,
-      enabled: isEnabled,
-    })),
+  // Single bulk request: /drivers/{id}/driverStandings.json?limit=100
+  // returns end-of-season standings for every season the driver competed in,
+  // replacing the previous N per-season standings queries.
+  const standingsQuery = useQuery({
+    queryKey: queryKeys.drivers.allSeasonStandings(driverId),
+    queryFn: () => driversService.getAllDriverSeasonStandings(driverId as string),
+    enabled: isEnabled,
   });
+
+  // One request per season — already an efficient per-driver endpoint.
   const raceQueries = useQueries({
     queries: seasons.map((comparisonSeason) => ({
       queryKey: queryKeys.races.driverResults(driverId, comparisonSeason),
@@ -130,25 +132,29 @@ export const useDriverCrossSeasonComparison = (
       enabled: isEnabled,
     })),
   });
+
+  // One request per season using the driver-specific qualifying endpoint,
+  // replacing the previous getAllQualifyingResults N+1 pattern.
   const qualifyingQueries = useQueries({
     queries: seasons.map((comparisonSeason) => ({
-      queryKey: queryKeys.races.qualifyingAll(comparisonSeason),
-      queryFn: () => getAllQualifyingResults(comparisonSeason),
+      queryKey: queryKeys.races.driverQualifyingAll(driverId, comparisonSeason),
+      queryFn: () =>
+        getDriverSeasonQualifyingResults(driverId as string, comparisonSeason),
       enabled: isEnabled,
     })),
   });
-  const allQueries = [...standingsQueries, ...raceQueries, ...qualifyingQueries];
 
-  const data = useMemo(() => {
-    if (!driverId) {
-      return [];
-    }
+  const allSubQueries = [...raceQueries, ...qualifyingQueries];
+
+  const data = useMemo((): DriverCrossSeasonSnapshot[] => {
+    if (!driverId || !standingsQuery.data) return [];
 
     return seasons
       .map((comparisonSeason, index) => {
-        const standing = (standingsQueries[index]?.data ?? []).find(
-          (driver) => driver.Driver.driverId === driverId
+        const seasonStandingsList = standingsQuery.data.find(
+          (list) => list.season === comparisonSeason
         );
+        const standing = seasonStandingsList?.DriverStandings[0];
 
         return {
           season: comparisonSeason,
@@ -161,20 +167,23 @@ export const useDriverCrossSeasonComparison = (
         ({ standing, raceResults, qualifyingResults }) =>
           Boolean(standing) ||
           raceResults.length > 0 ||
-          qualifyingResults.some((race) =>
-            race.results.some((result) => result.Driver.driverId === driverId)
-          )
+          qualifyingResults.length > 0
       );
-  }, [driverId, qualifyingQueries, raceQueries, seasons, standingsQueries]);
+  }, [driverId, seasons, standingsQuery.data, raceQueries, qualifyingQueries]);
 
   const error =
-    allQueries.find((query) => query.error instanceof Error)?.error ?? null;
+    [standingsQuery, ...allSubQueries].find(
+      (query) => query.error instanceof Error
+    )?.error ?? null;
 
   return {
     data,
     seasons,
-    isLoading: allQueries.some((query) => query.isLoading),
-    isError: allQueries.some((query) => query.isError),
+    isLoading:
+      standingsQuery.isLoading ||
+      allSubQueries.some((query) => query.isLoading),
+    isError:
+      standingsQuery.isError || allSubQueries.some((query) => query.isError),
     error,
   };
 };

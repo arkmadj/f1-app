@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import axios from "axios";
+import { DEFAULT_SEASON } from "../../domain/f1/seasons";
 import {
   getCurrentSeasonRaces,
   getCircuitPodiumFinishers,
   getCircuitRaceWinners,
   getConstructorRaceResults,
   getDriverRaceResults,
+  getDriverSeasonQualifyingResults,
   getRacePitStops,
   getRaceResults,
   getSprintResults,
@@ -48,7 +50,7 @@ describe("services/api/racesApi", () => {
 
     const races = await getCurrentSeasonRaces();
 
-    expect(axios.get).toHaveBeenCalledWith("/2024.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}.json`);
     expect(races).toEqual([{ round: "1" }]);
   });
 
@@ -68,7 +70,7 @@ describe("services/api/racesApi", () => {
 
     const results = await getRaceResults("3");
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/3/results.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/3/results.json`);
     expect(results).toEqual([{ position: "1" }]);
   });
 
@@ -79,7 +81,7 @@ describe("services/api/racesApi", () => {
 
     const pitStops = await getRacePitStops("3");
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/3/pitstops.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/3/pitstops.json`);
     expect(pitStops).toEqual([{ driverId: "norris", duration: "2.211" }]);
   });
 
@@ -92,7 +94,7 @@ describe("services/api/racesApi", () => {
 
     const laps = await getRaceLapTimings("3");
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/3/laps.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/3/laps.json`);
     expect(laps).toEqual([
       { number: "1", Timings: [{ driverId: "norris", position: "4" }] },
     ]);
@@ -201,14 +203,14 @@ describe("services/api/racesApi", () => {
     expect(results).toEqual([{ position: "1" }, { position: "3" }]);
   });
 
-  it("getSprintResults hits the Jolpica 2024/{round}/sprint endpoint", async () => {
+  it("getSprintResults hits the default season sprint endpoint", async () => {
     axios.get.mockResolvedValueOnce(
       racesPayload([{ SprintResults: [{ position: "2" }] }])
     );
 
     const results = await getSprintResults("4");
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/4/sprint.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/4/sprint.json`);
     expect(results).toEqual([{ position: "2" }]);
   });
 
@@ -217,15 +219,15 @@ describe("services/api/racesApi", () => {
 
     await getRaces();
 
-    expect(axios.get).toHaveBeenCalledWith("/2024.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}.json`);
   });
 
-  it("getSprintRaces hits the Jolpica 2024/sprint endpoint", async () => {
+  it("getSprintRaces hits the default season sprint endpoint", async () => {
     axios.get.mockResolvedValueOnce(racesPayload([]));
 
     await getSprintRaces();
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/sprint.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/sprint.json`);
   });
 
   it("getLastRaceResults hits the default season last/results endpoint", async () => {
@@ -233,7 +235,7 @@ describe("services/api/racesApi", () => {
 
     await getLastRaceResults();
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/last/results.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/last/results.json`);
   });
 
   it("getRaceInfo hits the default season last/results endpoint", async () => {
@@ -241,7 +243,7 @@ describe("services/api/racesApi", () => {
 
     const info = await getRaceInfo();
 
-    expect(axios.get).toHaveBeenCalledWith("/2024/last/results.json");
+    expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/last/results.json`);
     expect(info).toEqual({ raceName: "GP" });
   });
 
@@ -263,7 +265,7 @@ describe("services/api/racesApi", () => {
 
       const result = await getQualifyingResults("5");
 
-      expect(axios.get).toHaveBeenCalledWith("/2024/5/qualifying.json");
+      expect(axios.get).toHaveBeenCalledWith(`/${DEFAULT_SEASON}/5/qualifying.json`);
       expect(result).toEqual([{ position: "1" }]);
     });
 
@@ -284,8 +286,8 @@ describe("services/api/racesApi", () => {
 
       const results = await getAllQualifyingResults();
 
-      expect(axios.get).toHaveBeenNthCalledWith(1, "/2024.json");
-      expect(axios.get).toHaveBeenNthCalledWith(2, "/2024/1/qualifying.json");
+      expect(axios.get).toHaveBeenNthCalledWith(1, `/${DEFAULT_SEASON}.json`);
+      expect(axios.get).toHaveBeenNthCalledWith(2, `/${DEFAULT_SEASON}/1/qualifying.json`);
       expect(results).toEqual([{ round: "1", results: [{ position: "1" }] }]);
     });
   });
@@ -331,6 +333,61 @@ describe("services/api/racesApi", () => {
       axios.get.mockResolvedValueOnce(racesPayload([]));
 
       await expect(getRaceInfo()).resolves.toBeUndefined();
+    });
+  });
+
+  describe("getDriverSeasonQualifyingResults", () => {
+    it("fetches driver qualifying results for a season in a single request", async () => {
+      axios.get.mockResolvedValueOnce({
+        data: {
+          MRData: {
+            RaceTable: {
+              Races: [
+                {
+                  season: "2024",
+                  round: "1",
+                  raceName: "Bahrain Grand Prix",
+                  date: "2024-03-02",
+                  Circuit: { circuitId: "bahrain", circuitName: "Bahrain International Circuit", Location: {} },
+                  QualifyingResults: [
+                    { position: "1", Driver: { driverId: "max_verstappen" }, Constructor: { constructorId: "red_bull" }, Q1: "1:29.000", Q2: "1:28.000", Q3: "1:27.900" },
+                  ],
+                },
+                {
+                  season: "2024",
+                  round: "2",
+                  raceName: "Saudi Arabian Grand Prix",
+                  date: "2024-03-09",
+                  Circuit: { circuitId: "jeddah", circuitName: "Jeddah Corniche Circuit", Location: {} },
+                  QualifyingResults: [
+                    { position: "2", Driver: { driverId: "max_verstappen" }, Constructor: { constructorId: "red_bull" }, Q1: "1:28.500", Q2: "1:27.800", Q3: "1:27.472" },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      });
+
+      const result = await getDriverSeasonQualifyingResults("max_verstappen", "2024");
+
+      expect(axios.get).toHaveBeenCalledTimes(1);
+      expect(axios.get).toHaveBeenCalledWith(
+        "/2024/drivers/max_verstappen/qualifying.json?limit=100"
+      );
+      expect(result).toHaveLength(2);
+      expect(result[0].round).toBe("1");
+      expect(result[0].results[0].Driver.driverId).toBe("max_verstappen");
+      expect(result[1].round).toBe("2");
+      expect(result[1].results[0].position).toBe("2");
+    });
+
+    it("returns an empty array when no races are returned", async () => {
+      axios.get.mockResolvedValueOnce(racesPayload([]));
+
+      const result = await getDriverSeasonQualifyingResults("max_verstappen", "2024");
+
+      expect(result).toEqual([]);
     });
   });
 });

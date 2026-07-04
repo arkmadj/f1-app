@@ -236,6 +236,11 @@ const sprintResultsUrl = (round: string | number, season: Season): string =>
   `/${season}/${round}/sprint.json`;
 const qualifyingResultsUrl = (round: string | number, season: Season): string =>
   `/${season}/${round}/qualifying.json`;
+const driverSeasonQualifyingUrl = (
+  driverId: string,
+  season: Season
+): string =>
+  `/${season}/drivers/${driverId}/qualifying.json?limit=100`;
 const circuitUrl = (circuitId: string): string => `/circuits/${circuitId}.json`;
 const circuitRaceWinnersUrl = (circuitId: string): string =>
   `/circuits/${circuitId}/results/1.json?limit=100`;
@@ -584,6 +589,191 @@ export const getAllSprintResults = async (
   );
 };
 
+// ---------------------------------------------------------------------------
+// Bulk season results (paginated single endpoint) for standings timelines
+// ---------------------------------------------------------------------------
+
+const RESULTS_PAGE_SIZE = 100;
+
+const seasonResultsUrl = (season: Season, offset: number): string =>
+  `/${season}/results.json?limit=${RESULTS_PAGE_SIZE}&offset=${offset}`;
+const seasonSprintResultsUrl = (season: Season, offset: number): string =>
+  `/${season}/sprint.json?limit=${RESULTS_PAGE_SIZE}&offset=${offset}`;
+
+interface PaginatedRacesResponse {
+  MRData: {
+    total?: string;
+    RaceTable: RaceTable;
+  };
+}
+
+type SeasonResultsField = "Results" | "SprintResults";
+
+// A single race round can straddle a pagination boundary, so results for the
+// same round are merged rather than overwritten.
+const mergeSeasonResults = (
+  target: Map<string, ErgastRace>,
+  races: ErgastRace[],
+  field: SeasonResultsField
+): void => {
+  races.forEach((race) => {
+    const incoming = race[field] ?? [];
+    const existing = target.get(race.round);
+
+    if (existing) {
+      existing[field] = [...(existing[field] ?? []), ...incoming];
+    } else {
+      target.set(race.round, { ...race, [field]: [...incoming] });
+    }
+  });
+};
+
+const fetchAllSeasonResults = async (
+  urlFor: (offset: number) => string,
+  field: SeasonResultsField,
+  errorContext: string
+): Promise<ErgastRace[]> => {
+  try {
+    const merged = new Map<string, ErgastRace>();
+    const firstPage = await getF1ApiData<PaginatedRacesResponse>(urlFor(0));
+    const total = Number.parseInt(firstPage?.MRData?.total ?? "0", 10);
+    mergeSeasonResults(merged, firstPage?.MRData?.RaceTable?.Races ?? [], field);
+
+    const remainingOffsets: number[] = [];
+    for (
+      let offset = RESULTS_PAGE_SIZE;
+      offset < total;
+      offset += RESULTS_PAGE_SIZE
+    ) {
+      remainingOffsets.push(offset);
+    }
+
+    if (remainingOffsets.length > 0) {
+      const pages = await Promise.all(
+        remainingOffsets.map((offset) =>
+          getF1ApiData<PaginatedRacesResponse>(urlFor(offset))
+        )
+      );
+      pages.forEach((page) =>
+        mergeSeasonResults(merged, page?.MRData?.RaceTable?.Races ?? [], field)
+      );
+    }
+
+    return [...merged.values()].sort(
+      (left, right) => Number(left.round) - Number(right.round)
+    );
+  } catch (error) {
+    console.error(`Error fetching ${errorContext}:`, error);
+    throw error;
+  }
+};
+
+export const getSeasonRaceResults = (
+  season: Season = DEFAULT_SEASON
+): Promise<ErgastRace[]> =>
+  fetchAllSeasonResults(
+    (offset) => seasonResultsUrl(season, offset),
+    "Results",
+    `${season} season race results`
+  );
+
+export const getSeasonSprintResults = (
+  season: Season = DEFAULT_SEASON
+): Promise<ErgastRace[]> =>
+  fetchAllSeasonResults(
+    (offset) => seasonSprintResultsUrl(season, offset),
+    "SprintResults",
+    `${season} season sprint results`
+  );
+
+// ---------------------------------------------------------------------------
+// Cumulative standings timeline (derived from bulk results)
+// ---------------------------------------------------------------------------
+
+export interface StandingsTimelineRound<TStanding> {
+  season: string;
+  round: string;
+  raceName: string;
+  date?: string;
+  standings: TStanding[];
+}
+
+export interface StandingAggregate {
+  id: string;
+  points: number;
+  wins: number;
+  latestResult: RaceResult;
+}
+
+// Builds per-round cumulative championship standings from full-season race and
+// sprint results. Points accumulate across rounds; race wins (P1) break ties,
+// then the entity id for a stable ordering.
+export const buildStandingsTimeline = <TStanding>(
+  raceRounds: ErgastRace[],
+  sprintRounds: ErgastRace[],
+  getKey: (result: RaceResult) => string | undefined,
+  makeStanding: (aggregate: StandingAggregate, position: number) => TStanding
+): StandingsTimelineRound<TStanding>[] => {
+  const sprintByRound = new Map<string, SprintResult[]>();
+  sprintRounds.forEach((race) => {
+    sprintByRound.set(race.round, race.SprintResults ?? []);
+  });
+
+  const aggregates = new Map<string, StandingAggregate>();
+
+  const applyResult = (result: RaceResult, countWin: boolean): void => {
+    const key = getKey(result);
+    if (!key) {
+      return;
+    }
+
+    const aggregate = aggregates.get(key) ?? {
+      id: key,
+      points: 0,
+      wins: 0,
+      latestResult: result,
+    };
+
+    const points = Number(result.points);
+    if (Number.isFinite(points)) {
+      aggregate.points += points;
+    }
+    if (countWin && result.position === "1") {
+      aggregate.wins += 1;
+    }
+    aggregate.latestResult = result;
+    aggregates.set(key, aggregate);
+  };
+
+  const sortedRaces = [...raceRounds].sort(
+    (left, right) => Number(left.round) - Number(right.round)
+  );
+
+  return sortedRaces.map((race) => {
+    (sprintByRound.get(race.round) ?? []).forEach((result) =>
+      applyResult(result, false)
+    );
+    (race.Results ?? []).forEach((result) => applyResult(result, true));
+
+    const standings = [...aggregates.values()]
+      .sort(
+        (left, right) =>
+          right.points - left.points ||
+          right.wins - left.wins ||
+          left.id.localeCompare(right.id)
+      )
+      .map((aggregate, index) => makeStanding(aggregate, index + 1));
+
+    return {
+      season: race.season,
+      round: race.round,
+      raceName: race.raceName,
+      date: race.date,
+      standings,
+    };
+  });
+};
+
 export const getQualifyingResults = async (
   round: string | number,
   season: Season = DEFAULT_SEASON
@@ -605,6 +795,22 @@ export const getAllQualifyingResults = async (
       results: await getQualifyingResults(race.round, season),
     }))
   );
+};
+
+// Returns qualifying results for a specific driver across all rounds of a
+// season in a single request, avoiding the N+1 pattern in getAllQualifyingResults.
+export const getDriverSeasonQualifyingResults = async (
+  driverId: string,
+  season: Season = DEFAULT_SEASON
+): Promise<QualifyingRaceWithResults[]> => {
+  const races = await fetchRaceTable(
+    driverSeasonQualifyingUrl(driverId, season),
+    `${season} ${driverId} qualifying results`
+  );
+  return races.map((race) => ({
+    ...race,
+    results: race.QualifyingResults ?? [],
+  }));
 };
 
 export const getLastRaceResults = async (

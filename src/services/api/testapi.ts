@@ -1,9 +1,15 @@
 import { getF1ApiData } from "./axios";
 import { DEFAULT_SEASON, type Season } from "../../domain/f1/seasons";
 import type {
+  DriverStanding,
   DriverStandingsList,
   DriverStandingsResponse,
 } from "./constructorsApi";
+import {
+  buildStandingsTimeline,
+  getSeasonRaceResults,
+  getSeasonSprintResults,
+} from "./racesApi";
 import type { DriverDetailResponse } from "../../hooks/queries/useDriverQueries";
 
 const driversApi = (season: Season): string =>
@@ -14,22 +20,9 @@ const driverStandingsByRoundApi = (
 ): string => `/${season}/${round}/driverStandings.json`;
 const driverDetailsApi = (id: string, season: Season): string =>
   `/${season}/drivers/${id}.json`;
-const seasonRacesApi = (season: Season): string => `/${season}.json`;
-
-interface SeasonRace {
-  season: string;
-  round: string;
-  raceName: string;
-  date?: string;
-}
-
-interface SeasonRacesResponse {
-  MRData: {
-    RaceTable: {
-      Races: SeasonRace[];
-    };
-  };
-}
+// Returns end-of-season standings for every season the driver competed in.
+const driverAllSeasonsStandingsApi = (driverId: string): string =>
+  `/drivers/${driverId}/driverStandings.json?limit=100`;
 
 export interface DriverStandingsTimelineRound {
   season: string;
@@ -48,6 +41,10 @@ interface DriversService {
   getDriverStandingsTimeline: (
     season?: Season
   ) => Promise<DriverStandingsTimelineRound[]>;
+  /** Returns final-round standings for every season the driver competed in. */
+  getAllDriverSeasonStandings: (
+    driverId: string
+  ) => Promise<DriverStandingsList[]>;
   getbyId: (id: string, season?: Season) => Promise<DriverDetailResponse>;
 }
 
@@ -61,38 +58,50 @@ const getDriverStandingsByRound = async (
   return data?.MRData?.StandingsTable?.StandingsLists?.[0];
 };
 
+// Derives per-round cumulative driver standings from a couple of bulk requests
+// (all race results + all sprint results) instead of one request per round,
+// avoiding the previous N+1 request pattern.
 const getDriverStandingsTimeline = async (
   season: Season = DEFAULT_SEASON
 ): Promise<DriverStandingsTimelineRound[]> => {
-  const racesResponse = await getF1ApiData<SeasonRacesResponse>(
-    seasonRacesApi(season)
+  const [raceRounds, sprintRounds] = await Promise.all([
+    getSeasonRaceResults(season),
+    getSeasonSprintResults(season),
+  ]);
+
+  return buildStandingsTimeline<DriverStanding>(
+    raceRounds,
+    sprintRounds,
+    (result) => result.Driver.driverId,
+    (aggregate, position) => ({
+      position: String(position),
+      positionText: String(position),
+      points: String(aggregate.points),
+      wins: String(aggregate.wins),
+      Driver: aggregate.latestResult.Driver,
+      Constructors: [
+        {
+          ...aggregate.latestResult.Constructor,
+          nationality: aggregate.latestResult.Constructor.nationality ?? "",
+        },
+      ],
+    })
+  ).map((round) => ({
+    season: round.season,
+    round: round.round,
+    raceName: round.raceName,
+    date: round.date,
+    DriverStandings: round.standings,
+  }));
+};
+
+const getAllDriverSeasonStandings = async (
+  driverId: string
+): Promise<DriverStandingsList[]> => {
+  const data = await getF1ApiData<DriverStandingsResponse>(
+    driverAllSeasonsStandingsApi(driverId)
   );
-  const races = racesResponse?.MRData?.RaceTable?.Races ?? [];
-  const roundResults = await Promise.allSettled(
-    races.map((race) => getDriverStandingsByRound(race.round, season))
-  );
-
-  return races.flatMap((race, index) => {
-    const roundResult = roundResults[index];
-    if (!roundResult || roundResult.status !== "fulfilled") {
-      return [];
-    }
-
-    const standingsList = roundResult.value;
-    if (!standingsList) {
-      return [];
-    }
-
-    return [
-      {
-        season: standingsList.season ?? race.season ?? season,
-        round: standingsList.round ?? race.round,
-        raceName: race.raceName,
-        date: race.date,
-        DriverStandings: standingsList.DriverStandings ?? [],
-      },
-    ];
-  });
+  return data?.MRData?.StandingsTable?.StandingsLists ?? [];
 };
 
 const driversService: DriversService = {
@@ -103,6 +112,8 @@ const driversService: DriversService = {
   getDriverStandingsByRound,
 
   getDriverStandingsTimeline,
+
+  getAllDriverSeasonStandings,
 
   getbyId(id, season = DEFAULT_SEASON) {
     return getF1ApiData<DriverDetailResponse>(driverDetailsApi(id, season));

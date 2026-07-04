@@ -6,6 +6,11 @@
 // callers strongly-typed end-to-end.
 
 import { getF1ApiData } from "./axios";
+import {
+  buildStandingsTimeline,
+  getSeasonRaceResults,
+  getSeasonSprintResults,
+} from "./racesApi";
 import { DEFAULT_SEASON, type Season } from "../../domain/f1/seasons";
 
 // ---------------------------------------------------------------------------
@@ -79,21 +84,6 @@ export interface ConstructorStandingsResponse {
   };
 }
 
-interface SeasonRace {
-  season: string;
-  round: string;
-  raceName: string;
-  date?: string;
-}
-
-interface SeasonRacesResponse {
-  MRData: {
-    RaceTable: {
-      Races: SeasonRace[];
-    };
-  };
-}
-
 export interface ConstructorStandingsTimelineRound {
   season: string;
   round: string;
@@ -128,7 +118,10 @@ const driversApi = (season: Season): string =>
   `/${season}/driverStandings.json`;
 const constructorDetailsApi = (id: string, season: Season): string =>
   `/${season}/constructors/${id}.json`;
-const seasonRacesApi = (season: Season): string => `/${season}.json`;
+// Returns end-of-season standings for every season the constructor participated
+// in — one request instead of one-per-season.
+const constructorAllSeasonsStandingsApi = (constructorId: string): string =>
+  `/constructors/${constructorId}/constructorStandings.json?limit=100`;
 
 // ---------------------------------------------------------------------------
 // Service contract
@@ -143,6 +136,10 @@ export interface ConstructorsService {
   getConstructorStandingsTimeline: (
     season?: Season
   ) => Promise<ConstructorStandingsTimelineRound[]>;
+  /** Returns final-round standings for every season the constructor competed in. */
+  getAllSeasonStandings: (
+    constructorId: string
+  ) => Promise<ConstructorStandingsList[]>;
   getbyId: (id: string, season?: Season) => Promise<ConstructorDetailResponse>;
   getDriversByConstructor: (
     constructorId: string,
@@ -160,38 +157,47 @@ const getConstructorStandingsByRound = async (
   return data?.MRData?.StandingsTable?.StandingsLists?.[0];
 };
 
+// Derives per-round cumulative constructor standings from a couple of bulk
+// requests (all race results + all sprint results) instead of one request per
+// round, avoiding the previous N+1 request pattern.
 const getConstructorStandingsTimeline = async (
   season: Season = DEFAULT_SEASON
 ): Promise<ConstructorStandingsTimelineRound[]> => {
-  const racesResponse = await getF1ApiData<SeasonRacesResponse>(
-    seasonRacesApi(season)
-  );
-  const races = racesResponse?.MRData?.RaceTable?.Races ?? [];
-  const roundResults = await Promise.allSettled(
-    races.map((race) => getConstructorStandingsByRound(race.round, season))
-  );
+  const [raceRounds, sprintRounds] = await Promise.all([
+    getSeasonRaceResults(season),
+    getSeasonSprintResults(season),
+  ]);
 
-  return races.flatMap((race, index) => {
-    const roundResult = roundResults[index];
-    if (!roundResult || roundResult.status !== "fulfilled") {
-      return [];
-    }
-
-    const standingsList = roundResult.value;
-    if (!standingsList) {
-      return [];
-    }
-
-    return [
-      {
-        season: standingsList.season ?? race.season ?? season,
-        round: standingsList.round ?? race.round,
-        raceName: race.raceName,
-        date: race.date,
-        ConstructorStandings: standingsList.ConstructorStandings ?? [],
+  return buildStandingsTimeline<ConstructorStanding>(
+    raceRounds,
+    sprintRounds,
+    (result) => result.Constructor.constructorId,
+    (aggregate, position) => ({
+      position: String(position),
+      positionText: String(position),
+      points: String(aggregate.points),
+      wins: String(aggregate.wins),
+      Constructor: {
+        ...aggregate.latestResult.Constructor,
+        nationality: aggregate.latestResult.Constructor.nationality ?? "",
       },
-    ];
-  });
+    })
+  ).map((round) => ({
+    season: round.season,
+    round: round.round,
+    raceName: round.raceName,
+    date: round.date,
+    ConstructorStandings: round.standings,
+  }));
+};
+
+const getAllSeasonStandings = async (
+  constructorId: string
+): Promise<ConstructorStandingsList[]> => {
+  const data = await getF1ApiData<ConstructorStandingsResponse>(
+    constructorAllSeasonsStandingsApi(constructorId)
+  );
+  return data?.MRData?.StandingsTable?.StandingsLists ?? [];
 };
 
 const getDriversByConstructor = async (
@@ -223,6 +229,8 @@ const teamsService: ConstructorsService = {
   getConstructorStandingsByRound,
 
   getConstructorStandingsTimeline,
+
+  getAllSeasonStandings,
 
   getbyId(id, season = DEFAULT_SEASON) {
     return getF1ApiData<ConstructorDetailResponse>(
