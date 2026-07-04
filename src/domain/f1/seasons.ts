@@ -1,6 +1,6 @@
 export type Season = string;
 
-export const DEFAULT_SEASON: Season = "2024";
+export const DEFAULT_SEASON: Season = new Date().getFullYear().toString();
 
 export const AVAILABLE_SEASONS = [
   "2026",
