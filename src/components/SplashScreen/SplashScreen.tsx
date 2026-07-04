@@ -17,7 +17,7 @@ interface SplashScreenProps {
   onComplete?: () => void;
 }
 
-const TITLE = "F1 APP ONE";
+const TITLE = "F1 APP";
 const streakClass =
   "splash-streak absolute left-0 h-0.5 w-[28%] -translate-x-[30%] bg-linear-to-r from-transparent via-white/85 to-transparent opacity-0 drop-shadow-[0_0_8px_rgba(228,56,73,0.7)] will-change-[transform,opacity] motion-reduce:translate-x-0 motion-reduce:opacity-100";
 
@@ -131,7 +131,7 @@ function SplashScreen({ onComplete }: SplashScreenProps): JSX.Element | null {
       className="splash-overlay fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_30%,rgba(228,56,73,0.18)_0%,rgba(15,15,17,0)_55%),linear-gradient(180deg,#15151a_0%,#0a0a0d_100%)] will-change-[opacity] before:absolute before:inset-0 before:bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.025)_0_2px,transparent_2px_6px),repeating-linear-gradient(-45deg,rgba(255,255,255,0.025)_0_2px,transparent_2px_6px)] before:opacity-60 before:content-['']"
       role="status"
       aria-live="polite"
-      aria-label="Loading F1 App One"
+      aria-label="Loading F1 App"
     >
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
