@@ -87,7 +87,7 @@ function Footer(): JSX.Element {
     >
       <div className="h-1.5 w-full bg-linear-to-r from-(--color1) via-(--color2) to-(--color3)" />
 
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.25fr_1fr_0.9fr] lg:px-8">
+      <div className="mx-auto grid w-[min(100%-2rem,80rem)] gap-8 py-10 lg:grid-cols-[1.25fr_1fr_0.9fr]">
         <section
           className="max-w-xl text-center sm:text-left"
           aria-labelledby="footer-title"
