@@ -114,15 +114,15 @@ function LastRaceResults(): JSX.Element {
     : null;
 
   return (
-    <div className="my-5 text-white">
+    <div className="my-5 text-(--text-color)">
       <header className="mb-12 px-4 text-center">
-        <p className="mb-2 text-[0.8em] font-bold tracking-[0.18em] text-[#e10600] uppercase">
+        <p className="mb-2 text-[0.8em] font-bold tracking-[0.18em] text-(--color1) uppercase">
           {t("home.lastRaceResults.heading", { season: selectedSeason })}
         </p>
         <h2 className="mb-2.5 text-[2.25em] leading-[1.15]">
           {raceInfo.raceName ?? raceInfo.Circuit.circuitName}
         </h2>
-        <p className="m-0 text-[0.95em] text-[#bdbdbd]">
+        <p className="m-0 text-[0.95em] text-(--text-color3)">
           <span>{raceInfo.Circuit.circuitName}</span>
           {raceInfo.Circuit.Location && (
             <span>
@@ -170,13 +170,13 @@ function LastRaceResults(): JSX.Element {
                 )}
                 <div className="mt-3 flex flex-col gap-0.5">
                   <p className="m-0 text-[1.15em] font-bold">{driverName}</p>
-                  <p className="m-0 text-[0.9em] text-[#bdbdbd] max-[600px]:hidden">
+                  <p className="m-0 text-[0.9em] text-(--text-color3) max-[600px]:hidden">
                     {result.Constructor.name}
                   </p>
-                  <p className="mt-1 mb-0 text-[0.9em] text-[#e0e0e0]">
+                  <p className="mt-1 mb-0 text-[0.9em] text-(--text-color2)">
                     {getResultTime(result, t)}
                   </p>
-                  <p className="mt-0.5 mb-0 text-[0.95em] font-bold text-[#e10600]">
+                  <p className="mt-0.5 mb-0 text-[0.95em] font-bold text-(--color1)">
                     {t("home.lastRaceResults.points", { value: result.points })}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ function LastRaceResults(): JSX.Element {
       </div>
 
       <div
-        className={`${resultsGridClass} mx-auto w-4/5 border-b border-white/12 pb-2.5 text-[0.75em] tracking-[0.08em] text-[#9e9e9e] uppercase max-[900px]:w-[95%]`}
+        className={`${resultsGridClass} mx-auto w-4/5 border-b border-(--background-color2) pb-2.5 text-[0.75em] tracking-[0.08em] text-(--text-color3) uppercase max-[900px]:w-[95%]`}
         aria-hidden="true"
       >
         <span className="text-center">{t("home.lastRaceResults.columns.position")}</span>
@@ -219,7 +219,7 @@ function LastRaceResults(): JSX.Element {
                     : "bg-(--background-color2)"
                 } transition-all duration-150 group-hover:translate-x-0.5 group-hover:border-[#e10600]/60 group-focus-visible:translate-x-0.5 group-focus-visible:border-[#e10600]/60`}
               >
-                <div className="text-center text-[1.05em] font-bold text-white">
+                <div className="text-center text-[1.05em] font-bold text-(--text-color)">
                   {result.position}
                 </div>
                 <div className="flex min-w-0 items-center gap-3">
@@ -240,14 +240,14 @@ function LastRaceResults(): JSX.Element {
                     src={getTeamLogo(result.Constructor.name)}
                     alt={result.Constructor.name}
                   />
-                  <span className="truncate text-[0.95em] text-[#d0d0d0] max-[900px]:hidden">
+                  <span className="truncate text-[0.95em] text-(--text-color3) max-[900px]:hidden">
                     {result.Constructor.name}
                   </span>
                 </div>
-                <div className="tabular-nums text-[#e0e0e0] max-[600px]:hidden">
+                <div className="tabular-nums text-(--text-color2) max-[600px]:hidden">
                   {getResultTime(result, t)}
                 </div>
-                <div className="text-center font-bold text-[#e10600]">
+                <div className="text-center font-bold text-(--color1)">
                   {t("home.lastRaceResults.points", { value: result.points })}
                 </div>
               </li>

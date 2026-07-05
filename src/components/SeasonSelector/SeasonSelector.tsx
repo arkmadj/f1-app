@@ -93,7 +93,7 @@ function SeasonSelector({ className = "" }: SeasonSelectorProps): JSX.Element {
   return (
     <div
       ref={dropdownRef}
-      className={`group relative inline-flex min-w-46 items-center gap-3 rounded-full border border-(--background-color2) bg-(--background-buttons) px-2.5 py-2 text-sm text-(--text-color) shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-(--color3) hover:shadow-md ${className}`}
+      className={`group relative inline-flex min-w-46 items-center gap-3 rounded-full border border-(--background-color2) bg-(--background-buttons) px-2.5 py-2 text-sm text-(--text-color) shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-(--color3) hover:shadow-md ${isOpen ? "z-50" : ""} ${className}`}
     >
       <span
         aria-hidden="true"
@@ -154,7 +154,7 @@ function SeasonSelector({ className = "" }: SeasonSelectorProps): JSX.Element {
             id={listboxId}
             role="listbox"
             aria-label="Available F1 seasons"
-            className="absolute right-0 top-full z-50 mt-3 w-40 overflow-hidden rounded-2xl border border-(--background-color2) bg-(--background-buttons) p-1.5 text-left shadow-xl shadow-black/10"
+            className="absolute right-0 top-full z-99999 mt-3 w-40 overflow-hidden rounded-2xl border border-(--background-color2) bg-(--background-buttons) p-1.5 text-left shadow-xl shadow-black/10"
           >
             {seasons.map((season) => {
               const isSelected = season === selectedSeason;
