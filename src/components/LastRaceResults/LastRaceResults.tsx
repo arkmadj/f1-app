@@ -17,9 +17,8 @@ const resultsGridClass =
 const getPodiumClasses = (position: number) => {
   const base = {
     item: "relative min-w-35 text-center",
-    rank: "mb-2.5 inline-block rounded-full bg-white/10 px-2.5 py-1 text-[0.8em] font-bold tracking-[0.05em] text-white",
-    image:
-      "h-[110px] w-[110px] rounded-full border-[3px] border-white bg-white/5 object-cover",
+    rank: "mb-2.5 inline-block rounded-full px-2.5 py-1 text-[0.8em] font-bold tracking-[0.05em]",
+    image: "h-[110px] w-[110px] rounded-full border-[3px] object-cover",
   };
 
   if (position === 1) {
