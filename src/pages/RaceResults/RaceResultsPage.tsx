@@ -1972,7 +1972,7 @@ function RaceResultsPage(): JSX.Element {
 
   if (error) {
     return (
-      <div className="mx-auto mt-5 max-w-3xl px-4">
+      <div className="mx-auto w-[min(100%-2rem,80rem)] mt-5">
         <SectionError
           message={t("raceResults.error")}
           onRetry={() => void refetchRaceResults()}
@@ -2084,7 +2084,7 @@ function RaceResultsPage(): JSX.Element {
   };
 
   return (
-    <div className="relative mx-auto max-w-7xl overflow-hidden rounded-4xl border border-(--button-background) bg-(--background-color) p-3 text-(--text-color) shadow-2xl shadow-black/5 sm:p-5 lg:p-6">
+    <div className="relative mx-auto w-[min(100%-2rem,80rem)] overflow-hidden rounded-4xl border border-(--button-background) bg-(--background-color) p-3 text-(--text-color) shadow-2xl shadow-black/5 sm:p-5 lg:p-6">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-linear-to-br from-[#e10600]/8 via-transparent to-[#15151e]/8"

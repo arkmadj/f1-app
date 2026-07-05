@@ -1715,7 +1715,7 @@ function ConstructorComparison(): JSX.Element {
 
   if (!leftConstructor || !rightConstructor) {
     return (
-      <main className="mx-auto mt-10 w-full max-w-6xl px-3 min-[1490px]:px-0">
+      <main className="mx-auto w-[min(100%-2rem,80rem)] py-8">
         <EmptyState
           title={t("constructorComparison.empty.title")}
           message={t("constructorComparison.empty.message", {
@@ -1830,7 +1830,7 @@ function ConstructorComparison(): JSX.Element {
   });
 
   return (
-    <main className="mx-auto mt-10 w-full max-w-7xl px-3 text-(--text-color) min-[1490px]:px-0">
+    <main className="mx-auto w-[min(100%-2rem,80rem)] py-8 text-(--text-color)">
       <section className="rounded-4xl border border-(--background-color2) bg-[radial-gradient(circle_at_top_left,rgba(196,32,33,0.16),transparent_35%),var(--background-buttons)] p-5 shadow-[0_20px_55px_rgba(0,0,0,0.08)] min-[900px]:p-8">
         <p className="font-(--f1b) text-xs uppercase tracking-[0.24em] text-(--color3)">
           {t("constructorComparison.hero.eyebrow", { season: selectedSeason })}

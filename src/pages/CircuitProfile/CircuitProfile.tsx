@@ -297,7 +297,7 @@ function CircuitProfile(): JSX.Element {
 
   if (!circuit) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-10">
+      <div className="mx-auto w-[min(100%-2rem,80rem)] py-10">
         <EmptyState
           title="Circuit profile unavailable"
           message={`We could not find detailed track information for ${id}. Try another circuit from the ${selectedSeason} calendar.`}
@@ -325,8 +325,8 @@ function CircuitProfile(): JSX.Element {
   };
 
   return (
-    <main className="bg-(--background-color) px-4 py-8 text-(--text-color) sm:px-6 lg:px-10">
-      <section className="mx-auto max-w-7xl overflow-hidden rounded-3xl border border-(--background-color2) bg-[linear-gradient(135deg,var(--background-buttons),var(--background-color))] shadow-xl shadow-black/10">
+    <main className="bg-(--background-color) py-8 text-(--text-color)">
+      <section className="mx-auto w-[min(100%-2rem,80rem)] overflow-hidden rounded-3xl border border-(--background-color2) bg-[linear-gradient(135deg,var(--background-buttons),var(--background-color))] shadow-xl shadow-black/10">
         <div className="grid gap-8 p-6 md:grid-cols-[1.5fr_1fr] md:p-10">
           <div>
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-(--color3)">
@@ -478,7 +478,7 @@ function CircuitProfile(): JSX.Element {
       />
 
       <section
-        className="mx-auto mt-8 max-w-7xl rounded-3xl border border-(--background-color2) bg-(--background-buttons) p-6 md:p-8"
+        className="mx-auto mt-8 w-[min(100%-2rem,80rem)] rounded-3xl border border-(--background-color2) bg-(--background-buttons) p-6 md:p-8"
         aria-labelledby="circuit-previous-winners"
       >
         <div className="mb-5">
@@ -564,7 +564,7 @@ function CircuitProfile(): JSX.Element {
       </section>
 
       <section
-        className="mx-auto mt-8 max-w-7xl rounded-3xl border border-(--background-color2) bg-(--background-buttons) p-6 md:p-8"
+        className="mx-auto mt-8 w-[min(100%-2rem,80rem)] rounded-3xl border border-(--background-color2) bg-(--background-buttons) p-6 md:p-8"
         aria-labelledby="circuit-season-races"
       >
         <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">

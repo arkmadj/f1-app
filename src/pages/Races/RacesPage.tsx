@@ -70,7 +70,7 @@ function RacesPage(): JSX.Element {
   };
 
   return (
-    <div className="p-5 max-w-200 mx-auto">
+    <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
       <h1 className="text-center mb-5 text-[2em] text-(--text-color)">
         {t("races.heading", { season: selectedSeason })}
       </h1>

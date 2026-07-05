@@ -490,10 +490,10 @@ function NavBar(): JSX.Element {
   const translateNavItem = (item: NavItem): string => t(item.labelKey);
 
   return (
-    <header className="w-full sticky top-0 z-50 bg-[var(--background-color)] border-b border-[var(--background-color2)] shadow-sm">
+    <header className="w-full sticky top-[var(--banner-height,0px)] z-50 bg-[var(--background-color)] border-b border-[var(--background-color2)] shadow-sm">
       {/* Desktop navigation (>= lg) */}
       <nav
-        className="hidden lg:flex items-center justify-between w-full px-6 xl:px-10 h-16"
+        className="hidden lg:flex items-center justify-between mx-auto w-[min(100%-2rem,80rem)] h-16"
         aria-label={t("nav.primaryAriaLabel")}
         ref={desktopNavRef}
       >
@@ -547,8 +547,8 @@ function NavBar(): JSX.Element {
         id={MOBILE_NAV_ID}
         className={[
           "nav_items",
-          "lg:hidden fixed left-0 top-16 z-[400] w-full",
-          "h-[calc(100dvh-4rem)] max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain",
+          "lg:hidden fixed left-0 top-[calc(var(--banner-height,0px)+4rem)] z-[400] w-full",
+          "h-[calc(100dvh-4rem-var(--banner-height,0px))] max-h-[calc(100dvh-4rem-var(--banner-height,0px))] overflow-y-auto overscroll-contain",
           "flex flex-col px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-4 sm:px-6 sm:pt-6",
           "bg-[var(--background-color)]/95 shadow-2xl backdrop-blur-xl",
           "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
@@ -764,7 +764,7 @@ function NavBar(): JSX.Element {
       </nav>
 
       {/* Mobile header bar (toggle + logo) */}
-      <div className="lg:hidden flex flex-row-reverse items-center justify-between px-4 h-16">
+      <div className="lg:hidden flex flex-row-reverse items-center justify-between mx-auto w-[min(100%-2rem,80rem)] h-16">
         <div className="flex items-center gap-2">
           <SettingsPanel
             theme={theme}

@@ -271,7 +271,7 @@ const formatRaceTime = (
 function Schedule(): JSX.Element {
   const { t, i18n } = useTranslation();
   const { selectedSeason } = useSelectedSeason();
-  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason, { throwOnError: false });
+  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason);
   const [raceVisibility, setRaceVisibility] = useState<RaceVisibilityState>({
     key: "",
     count: INITIAL_VISIBLE_RACE_COUNT,
@@ -395,8 +395,8 @@ function Schedule(): JSX.Element {
   }
 
   return (
-    <div className="font-(--f1r) bg-(--background-color) px-4 py-8 text-(--text-color) sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-7xl">
+    <div className="font-(--f1r) bg-(--background-color) py-8 text-(--text-color)">
+      <div className="mx-auto w-[min(100%-2rem,80rem)]">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-(--color3)">
           {t("calendar.eyebrow")}
         </p>
@@ -442,7 +442,7 @@ function Schedule(): JSX.Element {
           message={t("calendar.empty.message", { season: selectedSeason })}
         />
       ) : (
-        <div className="mx-auto mt-10 max-w-7xl space-y-8" ref={calendarRef}>
+        <div className="mx-auto mt-10 w-[min(100%-2rem,80rem)] space-y-8" ref={calendarRef}>
           {visibleCalendarMonths.map((month) => (
             <section key={month.key} aria-labelledby={`month-${month.key}`}>
               <div className="mb-4 flex items-center gap-4">

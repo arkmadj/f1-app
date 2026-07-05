@@ -28,7 +28,7 @@ function QualifyingPageSkeleton({
 
   return (
     <div
-      className="mx-auto w-full max-w-280 px-[clamp(1rem,3vw,2rem)] py-[clamp(1rem,4vw,3rem)] max-[600px]:px-3"
+      className="mx-auto w-[min(100%-2rem,80rem)] py-8"
       data-testid="qualifying-page-skeleton"
       role="status"
       aria-live="polite"

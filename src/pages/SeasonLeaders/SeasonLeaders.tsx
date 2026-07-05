@@ -462,7 +462,7 @@ function SeasonLeaders(): JSX.Element {
 
   if (driverCards.length === 0 && constructorCards.length === 0) {
     return (
-      <main className="mx-auto mt-10 w-full max-w-6xl px-4">
+      <main className="mx-auto w-[min(100%-2rem,80rem)] mt-10">
         <EmptyState
           title={t("seasonLeaders.empty.title")}
           message={t("seasonLeaders.empty.message", { season: selectedSeason })}
@@ -472,7 +472,7 @@ function SeasonLeaders(): JSX.Element {
   }
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-5 font-(--f1r)">
+    <main className="mx-auto w-[min(100%-2rem,80rem)] py-8 font-(--f1r)">
       <header className={sectionClassName}>
         <p className="text-left text-xs uppercase tracking-[0.22em] text-(--text-color3)">
           {t("nav.items.seasonLeaders")}

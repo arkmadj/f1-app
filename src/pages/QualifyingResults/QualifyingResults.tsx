@@ -675,7 +675,7 @@ function QualifyingResultsPage(): JSX.Element {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1180px] px-[clamp(1rem,3vw,2rem)] py-[clamp(1rem,3vw,2rem)] max-[600px]:px-3">
+    <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
       <section
         className={`${surfaceClass} flex items-center justify-between gap-6 rounded-3xl p-[clamp(1.25rem,4vw,2rem)] max-[760px]:flex-col max-[760px]:items-start`}
         aria-labelledby="qualifying-title"

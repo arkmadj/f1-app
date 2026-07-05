@@ -14,7 +14,7 @@ function QualifyingResultsPageSkeleton(): JSX.Element {
 
   return (
     <div
-      className="mx-auto w-full max-w-[1180px] px-[clamp(1rem,3vw,2rem)] py-[clamp(1rem,3vw,2rem)] max-[600px]:px-3"
+      className="mx-auto w-[min(100%-2rem,80rem)] py-8"
       data-testid="qualifying-results-page-skeleton"
       role="status"
       aria-live="polite"
