@@ -271,7 +271,7 @@ const formatRaceTime = (
 function Schedule(): JSX.Element {
   const { t, i18n } = useTranslation();
   const { selectedSeason } = useSelectedSeason();
-  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason);
+  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason, { throwOnError: false });
   const [raceVisibility, setRaceVisibility] = useState<RaceVisibilityState>({
     key: "",
     count: INITIAL_VISIBLE_RACE_COUNT,

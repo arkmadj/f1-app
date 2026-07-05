@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "@tanstack/react-router";
 import ImageWithFallback from "../../components/ImageWithFallback/ImageWithFallback";
+import EmptyState from "../../components/EmptyState/EmptyState";
 import { getDriverImage } from "../../domain/f1/driversImage";
 import { getPermanentNumberImage } from "../../domain/f1/permanentNumber";
 import nationalityToCountryCode from "../../domain/f1/images";
@@ -1650,19 +1651,19 @@ function DriverProfile(): JSX.Element {
     data: standings,
     isLoading,
     error,
-  } = useDriverStandings(selectedSeason);
+  } = useDriverStandings(selectedSeason, { throwOnError: false });
   const {
     data: driverRaceResults,
     isLoading: isRaceResultsLoading,
     error: driverRaceResultsError,
-  } = useDriverRaceResults(id, selectedSeason);
+  } = useDriverRaceResults(id, selectedSeason, { throwOnError: false });
   const { data: qualifyingResults, isLoading: isQualifyingResultsLoading } =
-    useAllQualifyingResults(selectedSeason);
+    useAllQualifyingResults(selectedSeason, { throwOnError: false });
   const {
     data: driverStandingsTimeline,
     isLoading: isDriverStandingsTimelineLoading,
     error: driverStandingsTimelineError,
-  } = useDriverStandingsTimeline(selectedSeason);
+  } = useDriverStandingsTimeline(selectedSeason, { throwOnError: false });
   const crossSeasonComparisonQuery = useDriverCrossSeasonComparison(
     id,
     selectedSeason
@@ -1778,7 +1779,13 @@ function DriverProfile(): JSX.Element {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <EmptyState
+        title="Failed to load driver profile"
+        message={error.message}
+        icon="⚠️"
+      />
+    );
   }
 
   if (!driver) {

@@ -122,6 +122,7 @@ export const useDriverCrossSeasonComparison = (
     queryKey: queryKeys.drivers.allSeasonStandings(driverId),
     queryFn: () => driversService.getAllDriverSeasonStandings(driverId as string),
     enabled: isEnabled,
+    throwOnError: false,
   });
 
   // One request per season — already an efficient per-driver endpoint.
@@ -130,6 +131,7 @@ export const useDriverCrossSeasonComparison = (
       queryKey: queryKeys.races.driverResults(driverId, comparisonSeason),
       queryFn: () => getDriverRaceResults(driverId as string, comparisonSeason),
       enabled: isEnabled,
+      throwOnError: false,
     })),
   });
 
@@ -141,6 +143,7 @@ export const useDriverCrossSeasonComparison = (
       queryFn: () =>
         getDriverSeasonQualifyingResults(driverId as string, comparisonSeason),
       enabled: isEnabled,
+      throwOnError: false,
     })),
   });
 
