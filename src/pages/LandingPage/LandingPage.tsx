@@ -52,7 +52,7 @@ function LandingSectionPlaceholder({
 }: LandingSectionPlaceholderProps): JSX.Element {
   return (
     <div
-      className={`mx-auto my-5 flex w-full max-w-5xl items-center justify-center rounded-3xl border border-dashed border-(--background-color2) px-6 py-8 text-center text-sm text-(--text-color3) ${minHeightClassName}`}
+      className={`my-5 flex w-[min(100%-2rem,80rem)] items-center justify-center rounded-3xl border border-dashed border-(--background-color2) px-6 py-8 text-center text-sm text-(--text-color3) ${minHeightClassName}`}
       role="status"
       aria-live="polite"
       aria-busy="true"
@@ -132,12 +132,12 @@ function LandingPage(): JSX.Element {
   return (
     <div>
       <div
-        className="flex flex-col justify-start bg-(--background-color) p-5 text-center"
+        className="flex flex-col items-center justify-start bg-(--background-color) py-8 text-center"
         ref={containerRef}
       >
         <RaceCountdown />
         <section
-          className="mx-auto mt-2 w-full max-w-5xl text-(--text-color)"
+          className="w-[min(100%-2rem,80rem)] mt-2 text-(--text-color)"
           aria-labelledby="landing-quick-actions-title"
         >
           <div className="mb-5 text-left">

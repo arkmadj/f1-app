@@ -181,11 +181,11 @@ function SprintResultsPage(): JSX.Element {
   const numericCellClass = `${cellClass} text-center tabular-nums`;
 
   return (
-    <div className="mx-auto max-w-full min-w-25 rounded-lg bg-(--background-color) pb-1.25">
+    <div className="mx-auto w-[min(100%-2rem,80rem)] rounded-lg bg-(--background-color) py-8">
       <h1 className="mb-5 text-center text-[2vmax] text-(--text-color)">
         {t("sprintResults.heading", { round, season: selectedSeason })}
       </h1>
-      <section className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-(--button-background) bg-(--background-color) shadow-xl shadow-black/10">
+      <section className="overflow-hidden rounded-3xl border border-(--button-background) bg-(--background-color) shadow-xl shadow-black/10">
         <div className="flex flex-col gap-3 bg-linear-to-r from-[#101018] via-[#1b1b28] to-[#e10600] px-5 py-4 text-white md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-white/65">

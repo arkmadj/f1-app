@@ -1169,7 +1169,7 @@ function ConstructorsProfile(): JSX.Element {
 
   return (
     <>
-      <section className="mx-auto my-6 w-[min(1180px,calc(100%-1.5rem))] overflow-hidden rounded-[28px] border border-(--background-color2) bg-[linear-gradient(135deg,var(--background-buttons),var(--background-color2))] p-5 text-(--text-color) shadow-[0_24px_70px_rgba(0,0,0,0.14)] min-[900px]:p-8">
+      <section className="mx-auto my-6 w-[min(100%-2rem,80rem)] overflow-hidden rounded-[28px] border border-(--background-color2) bg-[linear-gradient(135deg,var(--background-buttons),var(--background-color2))] p-5 text-(--text-color) shadow-[0_24px_70px_rgba(0,0,0,0.14)] min-[900px]:p-8">
         <div className="flex flex-col gap-6 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between">
           <div className="flex flex-col gap-5 min-[640px]:flex-row min-[640px]:items-center">
             <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-3xl border border-(--background-color2) bg-(--background-color) p-5">

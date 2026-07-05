@@ -1558,7 +1558,7 @@ function DriverProfileSkeleton(): JSX.Element {
 
   return (
     <div
-      className="mx-auto mt-10 w-full max-w-6xl px-2.5 min-[1490px]:px-0"
+      className="mx-auto w-[min(100%-2rem,80rem)] py-8"
       data-testid="driver-profile-skeleton"
       role="status"
       aria-live="polite"
@@ -1630,7 +1630,7 @@ function DriverProfileSkeleton(): JSX.Element {
         </section>
       ))}
 
-      <div className="mx-auto mt-8 w-full max-w-4xl px-5 pb-10">
+      <div className="mx-auto mt-8 pb-10">
         <div className="space-y-3">
           <DriverProfileSkeletonBlock className="h-7 w-32 rounded-full" />
           <DriverProfileSkeletonBlock className="h-4 w-full rounded-full" />
@@ -1852,7 +1852,7 @@ function DriverProfile(): JSX.Element {
 
   return (
     <>
-      <div className="mx-auto mt-10 w-full max-w-6xl px-2.5 min-[1490px]:px-0">
+      <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
         <div className="grid gap-5 min-[984px]:grid-cols-[minmax(0,1fr)_auto] min-[984px]:items-stretch">
           {/* Hero card: name, number and portrait */}
           <div
@@ -2023,7 +2023,7 @@ function DriverProfile(): JSX.Element {
       </div>
 
       {/* Biography */}
-      <div className="mx-auto mt-8 w-full max-w-4xl cursor-default px-5 pb-10 text-left text-base leading-relaxed min-[1490px]:text-justify">
+      <div className="mx-auto mt-8 cursor-default pb-10 text-left text-base leading-relaxed min-[1490px]:text-justify w-[min(100%-2rem,80rem)]">
         <h1 className="mb-3 font-['F1_Bold'] text-xl underline decoration-(--color3) underline-offset-4">
           Biography
         </h1>

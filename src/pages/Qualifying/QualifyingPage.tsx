@@ -360,7 +360,7 @@ function QualifyingPage(): JSX.Element {
   }
 
   return (
-    <div className="mx-auto w-full max-w-280 px-[clamp(1rem,3vw,2rem)] py-[clamp(1rem,4vw,3rem)] max-[600px]:px-3">
+    <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
       <section
         className={`${surfaceClass} overflow-hidden rounded-[28px]`}
         aria-labelledby="qualifying-page-title"

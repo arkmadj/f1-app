@@ -996,14 +996,14 @@ function DriverStandings(): JSX.Element {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
         <Loader label={t("driverStandings.loading")} />
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
       <div className="font-(--f1r)">
         <div className="font-['F1_Bold'] text-xl text-left pl-2.5 pb-2.5 border-b-[5px] border-(--color3)">
           {t("driverStandings.heading", { season: selectedSeason })}

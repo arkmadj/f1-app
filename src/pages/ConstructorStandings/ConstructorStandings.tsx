@@ -542,14 +542,14 @@ function ConstructorStandings(): JSX.Element {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
         <Loader label={t("constructorStandings.loading")} />
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="mx-auto w-[min(100%-2rem,80rem)] py-8">
       <section className="font-(--f1r)">
         <header className="rounded-3xl border border-black/5 bg-(--background-buttons) p-4 shadow-[0_10px_30px_rgba(0,0,0,0.08)] md:p-5">
           <p className="text-left text-xs uppercase tracking-[0.22em] text-(--text-color3)">
