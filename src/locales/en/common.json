@@ -67,7 +67,8 @@
       "home": "Home",
       "qualifying": "Qualifying",
       "raceResults": "Race Results",
-      "races": "Races"
+      "races": "Races",
+      "seasonLeaders": "Season Leaders"
     }
   },
   "calendar": {
@@ -771,6 +772,7 @@
     "quickActions": {
       "compareConstructorsDescription": "Jump straight into a team-vs-team season comparison.",
       "compareDriversDescription": "Open a head-to-head driver comparison for the selected season.",
+      "seasonLeadersDescription": "Check the unofficial season leaders, including fastest laps.",
       "eyebrow": "Quick actions",
       "heading": "Compare the grid in one click"
     },
@@ -813,6 +815,53 @@
       "error": "Unable to load the latest F1 news right now.",
       "emptyTitle": "No F1 news available",
       "emptyMessage": "Fresh Formula 1 headlines will appear here as soon as they are available."
+    }
+  },
+  "seasonLeaders": {
+    "metaTitle": "Season Leaders",
+    "loading": "Loading season leaders",
+    "heading": "Season Leaders · {{season}}",
+    "description": "Unofficial season snapshots across race, sprint, and qualifying, including fastest laps.",
+    "empty": {
+      "title": "No season leaders available",
+      "message": "We could not build the unofficial leaders tables for the {{season}} season yet. Try another season or check back after more sessions are completed."
+    },
+    "sections": {
+      "driversEyebrow": "Drivers",
+      "driversHeading": "Unofficial drivers leaders",
+      "driversDescription": "The standout drivers across wins, podiums, poles, fastest laps, sprints, and reliability.",
+      "constructorsEyebrow": "Constructors",
+      "constructorsHeading": "Unofficial constructors leaders",
+      "constructorsDescription": "The teams leading the unofficial season categories in race pace, qualifying, and reliability."
+    },
+    "labels": {
+      "mostWins": "Most wins",
+      "mostPodiums": "Most podiums",
+      "mostSprintWins": "Most sprint wins",
+      "mostPoles": "Most poles",
+      "mostFastestLaps": "Most fastest laps",
+      "mostDnfs": "Most DNFs",
+      "mostPenalties": "Most penalties"
+    },
+    "values": {
+      "wins_one": "{{count}} Grand Prix win",
+      "wins_other": "{{count}} Grand Prix wins",
+      "podiums_one": "{{count}} podium",
+      "podiums_other": "{{count}} podiums",
+      "sprintWins_one": "{{count}} sprint win",
+      "sprintWins_other": "{{count}} sprint wins",
+      "poles_one": "{{count}} pole position",
+      "poles_other": "{{count}} pole positions",
+      "fastestLaps_one": "{{count}} fastest lap",
+      "fastestLaps_other": "{{count}} fastest laps",
+      "dnfs_one": "{{count}} DNF",
+      "dnfs_other": "{{count}} DNFs",
+      "penalties_one": "{{count}} grid penalty",
+      "penalties_other": "{{count}} grid penalties"
+    },
+    "links": {
+      "viewDriver": "View driver",
+      "viewConstructor": "View constructor"
     }
   }
 }
