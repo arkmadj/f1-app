@@ -32,7 +32,7 @@ function NewsFeed(): JSX.Element {
     data: news = [],
     isLoading,
     error,
-  } = useLatestF1News(NEWS_ITEM_LIMIT);
+  } = useLatestF1News(NEWS_ITEM_LIMIT, { throwOnError: false });
 
   return (
     <section

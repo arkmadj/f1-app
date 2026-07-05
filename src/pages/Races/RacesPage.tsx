@@ -42,7 +42,7 @@ const formatRaceDate = (date: string, language: string): string =>
 function RacesPage(): JSX.Element {
   const { t, i18n } = useTranslation();
   const { selectedSeason } = useSelectedSeason();
-  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason);
+  const { data, isLoading, error } = useCurrentSeasonRaces(selectedSeason, { throwOnError: false });
   const [sortOrder, setSortOrder] = useState<SortOrder>("earliest");
   const currentLanguage = i18n.resolvedLanguage ?? i18n.language ?? "en";
   const sortButtonLabel =
@@ -69,14 +69,6 @@ function RacesPage(): JSX.Element {
     setSortOrder((current) => (current === "earliest" ? "latest" : "earliest"));
   };
 
-  if (error) {
-    return (
-      <div className="text-(--color1)">
-        {t("races.error", { message: (error as Error).message })}
-      </div>
-    );
-  }
-
   return (
     <div className="p-5 max-w-200 mx-auto">
       <h1 className="text-center mb-5 text-[2em] text-(--text-color)">
@@ -84,6 +76,11 @@ function RacesPage(): JSX.Element {
       </h1>
       {isLoading ? (
         <Loader label={t("races.loading")} />
+      ) : error ? (
+        <EmptyState
+          title={t("races.error", { message: (error as Error).message })}
+          icon="⚠️"
+        />
       ) : (
         <>
           <button

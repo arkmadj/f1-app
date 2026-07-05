@@ -9,6 +9,7 @@ import { useLastRaceInfo, useLastRaceResults } from "../../hooks/queries";
 import { seasonSearchParams } from "../../domain/f1/seasons";
 import { useSelectedSeason } from "../../hooks/useSelectedSeason";
 import Loader from "../Loader/Loader";
+import EmptyState from "../EmptyState/EmptyState";
 
 const resultsGridClass =
   "grid grid-cols-[60px_2fr_1.5fr_1.5fr_80px] items-center gap-3 px-4 py-3 max-[900px]:grid-cols-[48px_2fr_1fr_1fr_64px] max-[900px]:gap-2 max-[900px]:px-3 max-[900px]:py-2.5 max-[600px]:grid-cols-[40px_1fr_50px_60px]";
@@ -72,12 +73,12 @@ function LastRaceResults(): JSX.Element {
     data: resultsData,
     isLoading: resultsLoading,
     error: resultsError,
-  } = useLastRaceResults(selectedSeason);
+  } = useLastRaceResults(selectedSeason, { throwOnError: false });
   const {
     data: raceInfo,
     isLoading: raceInfoLoading,
     error: raceInfoError,
-  } = useLastRaceInfo(selectedSeason);
+  } = useLastRaceInfo(selectedSeason, { throwOnError: false });
 
   const results: RaceResult[] = resultsData ?? [];
   const isLoading = resultsLoading || raceInfoLoading;
@@ -95,14 +96,15 @@ function LastRaceResults(): JSX.Element {
 
   if (error) {
     return (
-      <div className="mt-5 text-center text-[1.2em] text-[#dc3545]">
-        {t("home.lastRaceResults.error", { message: error.message })}
-      </div>
+      <EmptyState
+        title={t("home.lastRaceResults.error", { message: error.message })}
+        icon="⚠️"
+      />
     );
   }
 
   if (results.length === 0 || !raceInfo) {
-    return <div>{t("home.lastRaceResults.empty")}</div>;
+    return <EmptyState title={t("home.lastRaceResults.empty")} />;
   }
 
   const topThree = results.slice(0, 3);

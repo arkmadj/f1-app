@@ -567,8 +567,8 @@ function QualifyingResultsPage(): JSX.Element {
     data: qualifyingResultsData,
     isLoading,
     error,
-  } = useQualifyingResults(round, selectedSeason);
-  const { data: racePitStopsData } = useRacePitStops(round, selectedSeason);
+  } = useQualifyingResults(round, selectedSeason, { throwOnError: false });
+  const { data: racePitStopsData } = useRacePitStops(round, selectedSeason, { throwOnError: false });
 
   const results: QualifyingResult[] = qualifyingResultsData ?? EMPTY_RESULTS;
   const sortedResults = useMemo<QualifyingResult[]>(
@@ -655,9 +655,10 @@ function QualifyingResultsPage(): JSX.Element {
 
   if (error) {
     return (
-      <div className="mx-auto my-8 max-w-3xl rounded-2xl border border-red-500/20 bg-red-500/10 px-6 py-5 text-center font-['F1_Bold'] text-red-700">
-        {t("qualifyingResults.error", { message: error.message })}
-      </div>
+      <EmptyState
+        title={t("qualifyingResults.error", { message: error.message })}
+        icon="⚠️"
+      />
     );
   }
 

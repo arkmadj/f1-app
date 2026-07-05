@@ -724,6 +724,19 @@
       "hyperSoft": "Hyper Soft"
     }
   },
+  "raceResults": {
+    "error": "Error: This Grand Prix has not taken place",
+    "retry": "Retry",
+    "investigations": {
+      "error": "Steward investigations could not be loaded."
+    },
+    "timePenalties": {
+      "error": "Time penalty adjustments could not be loaded."
+    },
+    "chart": {
+      "error": "Lap-by-lap position data could not be loaded."
+    }
+  },
   "sprintResults": {
     "metaTitle": "Sprint Results",
     "loading": "Loading sprint results for {{season}} round {{round}}",

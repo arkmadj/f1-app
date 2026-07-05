@@ -90,6 +90,7 @@ export const useConstructorCrossSeasonGallery = (
     queryKey: queryKeys.constructors.allSeasonStandings(constructorId),
     queryFn: () => teamsService.getAllSeasonStandings(constructorId as string),
     enabled: Boolean(constructorId),
+    throwOnError: false,
   });
 
   const data = useMemo((): ConstructorCrossSeasonSnapshot[] => {

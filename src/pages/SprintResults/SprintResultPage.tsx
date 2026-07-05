@@ -123,7 +123,7 @@ function SprintResultsPage(): JSX.Element {
     data: sprintResultsData,
     isLoading,
     error,
-  } = useSprintResults(round, selectedSeason) as {
+  } = useSprintResults(round, selectedSeason, { throwOnError: false }) as {
     data: SprintResult[] | null | undefined;
     isLoading: boolean;
     error: Error | null;
@@ -155,9 +155,10 @@ function SprintResultsPage(): JSX.Element {
 
   if (error) {
     return (
-      <div className="mt-5 text-center text-[1.2em] text-[#dc3545]">
-        {t("sprintResults.error", { message: error.message })}
-      </div>
+      <EmptyState
+        title={t("sprintResults.error", { message: error.message })}
+        icon="⚠️"
+      />
     );
   }
 

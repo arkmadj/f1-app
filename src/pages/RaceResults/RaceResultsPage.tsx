@@ -1055,16 +1055,46 @@ const buildPositionChartSeries = (
     });
 };
 
+function SectionError({
+  message,
+  onRetry,
+}: {
+  message: string;
+  onRetry: () => void;
+}): JSX.Element {
+  const { t } = useTranslation();
+
+  return (
+    <div
+      role="alert"
+      className="flex flex-col gap-4 rounded-3xl border border-dashed border-[#e10600]/40 bg-[#e10600]/5 p-6 text-sm font-bold text-(--text-color2) sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p className="text-[#dc3545]">{message}</p>
+      <button
+        type="button"
+        onClick={onRetry}
+        className="inline-flex w-fit cursor-pointer rounded-full bg-(--button-background) px-5 py-2 text-sm font-black text-(--button-text) transition-colors hover:bg-(--color2) focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e10600]/60"
+      >
+        {t("raceResults.retry")}
+      </button>
+    </div>
+  );
+}
+
 function PositionChangesChart({
+  error,
   highlightedDriverId,
   isLoading,
   laps,
+  onRetry,
   raceTitle,
   results,
 }: {
+  error?: Error | null;
   highlightedDriverId?: string;
   isLoading: boolean;
   laps: readonly RaceLap[];
+  onRetry: () => void;
   raceTitle: string;
   results: readonly RaceResult[];
 }): JSX.Element {
@@ -1149,7 +1179,12 @@ function PositionChangesChart({
         )}
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <SectionError
+          message={t("raceResults.chart.error")}
+          onRetry={onRetry}
+        />
+      ) : isLoading ? (
         <div className="rounded-3xl border border-dashed border-(--button-background) bg-(--background-buttons) p-6 text-sm font-bold text-(--text-color2)">
           {t("raceResults.chart.loading")}
         </div>
@@ -1315,14 +1350,18 @@ function PositionChangesChart({
 }
 
 function StewardInvestigationsPanel({
+  error,
   investigations,
   isLoading,
   language,
+  onRetry,
   raceTitle,
 }: {
+  error?: Error | null;
   investigations: readonly StewardInvestigation[];
   isLoading: boolean;
   language: string;
+  onRetry: () => void;
   raceTitle: string;
 }): JSX.Element {
   const { t } = useTranslation();
@@ -1344,7 +1383,7 @@ function StewardInvestigationsPanel({
             {t("raceResults.investigations.description", { raceTitle })}
           </p>
         </div>
-        {!isLoading && investigations.length > 0 && (
+        {!error && !isLoading && investigations.length > 0 && (
           <p className="inline-flex w-fit rounded-full bg-(--background-buttons) px-4 py-2 text-sm font-black shadow-sm">
             {t("raceResults.investigations.records", {
               count: investigations.length,
@@ -1353,7 +1392,12 @@ function StewardInvestigationsPanel({
         )}
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <SectionError
+          message={t("raceResults.investigations.error")}
+          onRetry={onRetry}
+        />
+      ) : isLoading ? (
         <div className="rounded-3xl border border-dashed border-(--button-background) bg-(--background-buttons) p-6 text-sm font-bold text-(--text-color2)">
           {t("raceResults.investigations.loading")}
         </div>
@@ -1405,13 +1449,17 @@ function StewardInvestigationsPanel({
 }
 
 function TimePenaltiesPanel({
+  error,
   isLoading,
   language,
+  onRetry,
   penalties,
   raceTitle,
 }: {
+  error?: Error | null;
   isLoading: boolean;
   language: string;
+  onRetry: () => void;
   penalties: readonly TimePenaltyEntry[];
   raceTitle: string;
 }): JSX.Element {
@@ -1434,7 +1482,7 @@ function TimePenaltiesPanel({
             {t("raceResults.timePenalties.description", { raceTitle })}
           </p>
         </div>
-        {!isLoading && penalties.length > 0 && (
+        {!error && !isLoading && penalties.length > 0 && (
           <p className="inline-flex w-fit rounded-full bg-(--background-buttons) px-4 py-2 text-sm font-black shadow-sm">
             {t("raceResults.timePenalties.adjustments", {
               count: penalties.length,
@@ -1443,7 +1491,12 @@ function TimePenaltiesPanel({
         )}
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <SectionError
+          message={t("raceResults.timePenalties.error")}
+          onRetry={onRetry}
+        />
+      ) : isLoading ? (
         <div className="rounded-3xl border border-dashed border-(--button-background) bg-(--background-buttons) p-6 text-sm font-bold text-(--text-color2)">
           {t("raceResults.timePenalties.loading")}
         </div>
@@ -1689,30 +1742,41 @@ function RaceResultsPage(): JSX.Element {
   const [resultsSortOrder, setResultsSortOrder] =
     useState<RaceResultsSortOrder>("classification");
   const [activeTimelineEventId, setActiveTimelineEventId] = useState<string>("");
-  const { data: seasonRacesData } = useCurrentSeasonRaces(selectedSeason) as {
+  const { data: seasonRacesData } = useCurrentSeasonRaces(selectedSeason, {
+    throwOnError: false,
+  }) as {
     data: ErgastRace[] | undefined;
   };
   const {
     data: raceResultsData,
     isLoading,
     error,
-  } = useRaceResults(race, selectedSeason) as {
+    refetch: refetchRaceResults,
+  } = useRaceResults(race, selectedSeason, { throwOnError: false }) as {
     data: RaceResult[] | undefined;
     isLoading: boolean;
     error: Error | null;
+    refetch: () => void;
   };
-  const { data: racePitStopsData } = useRacePitStops(race, selectedSeason) as {
+  const { data: racePitStopsData } = useRacePitStops(race, selectedSeason, {
+    throwOnError: false,
+  }) as {
     data: PitStop[] | undefined;
   };
-  const { data: raceLapTimingsData, isLoading: isLapTimingsLoading } =
-    useRaceLapTimings(race, selectedSeason) as {
-      data: RaceLap[] | undefined;
-      isLoading: boolean;
-    };
-  const { data: sprintResultsData } = useSprintResults(
-    race,
-    selectedSeason
-  ) as {
+  const {
+    data: raceLapTimingsData,
+    isLoading: isLapTimingsLoading,
+    error: lapTimingsError,
+    refetch: refetchLapTimings,
+  } = useRaceLapTimings(race, selectedSeason, { throwOnError: false }) as {
+    data: RaceLap[] | undefined;
+    isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
+  };
+  const { data: sprintResultsData } = useSprintResults(race, selectedSeason, {
+    throwOnError: false,
+  }) as {
     data: SprintResult[] | null | undefined;
   };
   const raceInfo = useMemo(
@@ -1721,16 +1785,23 @@ function RaceResultsPage(): JSX.Element {
   );
   const { data: raceHighlightsUrl } = useRaceHighlights(
     raceInfo?.raceName,
-    selectedSeason
+    selectedSeason,
+    { throwOnError: false }
   ) as {
     data: string | undefined;
   };
   const {
     data: stewardInvestigationsData,
     isLoading: isStewardInvestigationsLoading,
-  } = useStewardInvestigations(raceInfo, selectedSeason) as {
+    error: stewardInvestigationsError,
+    refetch: refetchStewardInvestigations,
+  } = useStewardInvestigations(raceInfo, selectedSeason, {
+    throwOnError: false,
+  }) as {
     data: StewardInvestigation[] | undefined;
     isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
   };
 
   const results = useMemo<RaceResult[]>(
@@ -1901,8 +1972,11 @@ function RaceResultsPage(): JSX.Element {
 
   if (error) {
     return (
-      <div className="text-center text-[1.2em] mt-5 text-[#dc3545]">
-        {t("raceResults.error")}
+      <div className="mx-auto mt-5 max-w-3xl px-4">
+        <SectionError
+          message={t("raceResults.error")}
+          onRetry={() => void refetchRaceResults()}
+        />
       </div>
     );
   }
@@ -2224,17 +2298,21 @@ function RaceResultsPage(): JSX.Element {
         </section>
         {results.length > 0 && (
           <TimePenaltiesPanel
+            error={stewardInvestigationsError}
             isLoading={isStewardInvestigationsLoading}
             language={currentLanguage}
+            onRetry={() => void refetchStewardInvestigations()}
             penalties={timePenaltyEntries}
             raceTitle={raceTitle}
           />
         )}
         {results.length > 0 && (
           <StewardInvestigationsPanel
+            error={stewardInvestigationsError}
             investigations={stewardInvestigations}
             isLoading={isStewardInvestigationsLoading}
             language={currentLanguage}
+            onRetry={() => void refetchStewardInvestigations()}
             raceTitle={raceTitle}
           />
         )}
@@ -2249,9 +2327,11 @@ function RaceResultsPage(): JSX.Element {
         )}
         {results.length > 0 && (
           <PositionChangesChart
+            error={lapTimingsError}
             highlightedDriverId={activeTimelineEvent?.driverId}
             isLoading={isLapTimingsLoading}
             laps={raceLapTimingsData ?? []}
+            onRetry={() => void refetchLapTimings()}
             raceTitle={raceTitle}
             results={results}
           />

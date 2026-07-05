@@ -83,7 +83,7 @@ function RaceCountdown(): JSX.Element {
     data: races,
     isLoading,
     isError,
-  } = useCurrentSeasonRaces(selectedSeason);
+  } = useCurrentSeasonRaces(selectedSeason, { throwOnError: false });
   const [timeRemaining, setTimeRemaining] = useState<string>("");
 
   const nextRace = useMemo<ErgastRace | null>(

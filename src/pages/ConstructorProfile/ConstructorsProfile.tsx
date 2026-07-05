@@ -987,17 +987,18 @@ function ConstructorsProfile(): JSX.Element {
     data: fetchedDrivers,
     isLoading: driversLoading,
     error: driversError,
-  } = useDriversByConstructor(id, selectedSeason);
+  } = useDriversByConstructor(id, selectedSeason, { throwOnError: false });
   const {
     data: constructorResponse,
     isLoading: constructorLoading,
     error: constructorError,
-  } = useConstructor(id, selectedSeason);
+  } = useConstructor(id, selectedSeason, { throwOnError: false });
   const constructorRaceResultsQuery = useConstructorRaceResults(
     id,
     selectedSeason,
     {
       enabled: Boolean(id),
+      throwOnError: false,
     }
   );
   const constructorLiveryGalleryQuery = useConstructorCrossSeasonGallery(
@@ -1075,6 +1076,7 @@ function ConstructorsProfile(): JSX.Element {
   }, [constructorDetails, fetchedDrivers, id]);
   const driverTimelineQuery = useDriverStandingsTimeline(selectedSeason, {
     enabled: drivers.length > 0,
+    throwOnError: false,
   });
   const averageRaceFinishSummary = useMemo(
     () => buildAverageRaceFinishSummary(constructorRaceResultsQuery.data ?? []),
@@ -1108,7 +1110,13 @@ function ConstructorsProfile(): JSX.Element {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <EmptyState
+        title="Failed to load constructor profile"
+        message={error.message}
+        icon="⚠️"
+      />
+    );
   }
 
   if (!team) {
