@@ -20,7 +20,7 @@ function DriverComparisonPageSkeleton({
 
   return (
     <div
-      className="mx-auto mt-10 w-full max-w-7xl px-3 text-(--text-color) min-[1490px]:px-0"
+      className="mx-auto w-[min(100%-2rem,80rem)] py-8 text-(--text-color)"
       data-testid="driver-comparison-page-skeleton"
       role="status"
       aria-live="polite"

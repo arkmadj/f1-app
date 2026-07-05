@@ -22,7 +22,7 @@ function SchedulePageSkeleton({
 
   return (
     <div
-      className="font-(--f1r) bg-(--background-color) px-4 py-8 text-(--text-color) sm:px-6 lg:px-10"
+      className="font-(--f1r) bg-(--background-color) py-8 text-(--text-color)"
       data-testid="schedule-page-skeleton"
       role="status"
       aria-live="polite"
@@ -32,7 +32,7 @@ function SchedulePageSkeleton({
         {t("calendar.loading", { season: selectedSeason })}
       </span>
 
-      <div className="mx-auto max-w-7xl" aria-hidden="true">
+      <div className="mx-auto w-[min(100%-2rem,80rem)]" aria-hidden="true">
         <div className="space-y-4">
           <ScheduleSkeletonBlock className="h-3 w-42 rounded-full" />
           <ScheduleSkeletonBlock className="h-11 w-[min(100%,26rem)] rounded-[1.6rem]" />
@@ -53,7 +53,7 @@ function SchedulePageSkeleton({
         </section>
       </div>
 
-      <div className="mx-auto mt-10 max-w-7xl space-y-8" aria-hidden="true">
+      <div className="mx-auto mt-10 w-[min(100%-2rem,80rem)] space-y-8" aria-hidden="true">
         {Array.from({ length: 2 }, (_, monthIndex) => (
           <section key={`schedule-month-skeleton-${monthIndex}`}>
             <div className="mb-4 flex items-center gap-4">

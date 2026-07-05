@@ -20,7 +20,7 @@ function SprintResultsPageSkeleton({
 
   return (
     <div
-      className="mx-auto max-w-full min-w-25 rounded-lg bg-(--background-color) pb-1.25"
+      className="mx-auto w-[min(100%-2rem,80rem)] rounded-lg bg-(--background-color) py-8"
       data-testid="sprint-results-page-skeleton"
       role="status"
       aria-live="polite"
@@ -35,7 +35,7 @@ function SprintResultsPageSkeleton({
       </div>
 
       <section
-        className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-(--button-background) bg-(--background-color) shadow-xl shadow-black/10"
+        className="overflow-hidden rounded-3xl border border-(--button-background) bg-(--background-color) shadow-xl shadow-black/10"
         aria-hidden="true"
       >
         <div className="flex flex-col gap-3 bg-linear-to-r from-[#101018] via-[#1b1b28] to-[#e10600] px-5 py-4 text-white md:flex-row md:items-center md:justify-between">
