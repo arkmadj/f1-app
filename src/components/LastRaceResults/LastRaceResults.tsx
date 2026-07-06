@@ -113,7 +113,7 @@ function LastRaceResults(): JSX.Element {
     : null;
 
   return (
-    <div className="my-5 text-(--text-color)">
+    <div className="mx-auto my-5 w-[min(100%-2rem,80rem)] text-(--text-color)">
       <header className="mb-12 px-4 text-center">
         <p className="mb-2 text-[0.8em] font-bold tracking-[0.18em] text-(--color1) uppercase">
           {t("home.lastRaceResults.heading", { season: selectedSeason })}
@@ -186,7 +186,7 @@ function LastRaceResults(): JSX.Element {
       </div>
 
       <div
-        className={`${resultsGridClass} mx-auto w-4/5 border-b border-(--background-color2) pb-2.5 text-[0.75em] tracking-[0.08em] text-(--text-color3) uppercase max-[900px]:w-[95%]`}
+        className={`${resultsGridClass} mx-auto border-b border-(--background-color2) pb-2.5 text-[0.75em] tracking-[0.08em] text-(--text-color3) uppercase max-[900px]:w-[95%]`}
         aria-hidden="true"
       >
         <span className="text-center">{t("home.lastRaceResults.columns.position")}</span>
@@ -198,7 +198,7 @@ function LastRaceResults(): JSX.Element {
         <span className="text-center">{t("home.lastRaceResults.columns.points")}</span>
       </div>
 
-      <ul className="mx-auto w-4/5 list-none p-0 max-[900px]:w-[95%]">
+      <ul className="mx-auto list-none p-0 max-[900px]:w-[95%]">
         {otherResults.map((result, index) => {
           const driverName = getDriverName(result);
           const driverImage = getDriverImage(result.Driver.driverId);
