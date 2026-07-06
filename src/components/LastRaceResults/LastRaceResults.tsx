@@ -186,7 +186,7 @@ function LastRaceResults(): JSX.Element {
       </div>
 
       <div
-        className={`${resultsGridClass} mx-auto w-4/5 border-b border-(--background-color2) pb-2.5 text-[0.75em] tracking-[0.08em] text-(--text-color3) uppercase max-[900px]:w-[95%]`}
+        className={`${resultsGridClass} mx-auto border-b border-(--background-color2) pb-2.5 text-[0.75em] tracking-[0.08em] text-(--text-color3) uppercase max-[900px]:w-[95%]`}
         aria-hidden="true"
       >
         <span className="text-center">{t("home.lastRaceResults.columns.position")}</span>
