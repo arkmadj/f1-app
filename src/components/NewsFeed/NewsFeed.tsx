@@ -36,7 +36,7 @@ function NewsFeed(): JSX.Element {
 
   return (
     <section
-      className="mx-auto mt-10 mb-5 w-[min(100%,1100px)] text-(--text-color)"
+      className="mx-auto mt-10 mb-5 w-[min(100%,80rem)] text-(--text-color)"
       aria-labelledby="latest-f1-news-title"
     >
       <header className="mb-5 flex flex-wrap items-end justify-between gap-y-3 gap-x-6 text-left">
