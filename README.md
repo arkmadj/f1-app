@@ -14,18 +14,24 @@ The current app supports **multiple seasons** through a shared URL search parame
 
 ## What you can do
 
-- Browse **drivers' championship** standings
-- Browse **constructors' championship** standings
+- Browse **drivers' championship** standings with a ranking progression chart and CSV export
+- Browse **constructors' championship** standings with a season spotlight and CSV export
 - Switch between supported seasons with the built-in **season selector**
-- See the **season schedule** and countdown to the next race
+- See the **season schedule** and countdown to the next race, with add-to-calendar links (Google Calendar and .ics download)
 - Review the **latest race results** directly from the landing page
 - Open **driver profiles** with stats, biography, imagery, and team context
 - Open **constructor profiles** with team details and driver information
+- Open **circuit profiles** linked from the schedule and race listing
+- View a **driver's individual race breakdown** with tire strategy, pit stops, and race context
 - View **race**, **qualifying**, and **sprint** results per round
-- Compare **two drivers** side by side, including points evolution and shareable URLs
-- Compare **two constructors** side by side, including team stats and points progression
+- Browse a **qualifying performance chart** and timeline of key session moments per round
+- Compare **two drivers** side by side, including a strength radar, points evolution, and shareable URLs
+- Compare **two constructors** side by side, including team stats, radar, and points progression
+- Check **unofficial season leaders** across wins, podiums, poles, fastest laps, sprints, and reliability
 - Read the latest **Formula1.com** headlines via RSS
-- Use a responsive **light/dark themed** interface with loading, empty, error, and 404 states
+- Use a responsive **English/Spanish** interface with light/dark theme, reduce-motion option, and a splash screen
+- Adjust **app settings** (theme, motion, splash screen) via a persistent settings panel
+- Enjoy loading, empty, error, and 404 states throughout
 
 ## Stack and architecture
 
@@ -38,10 +44,16 @@ This project is a client-side React application powered by:
 - [TanStack Query](https://tanstack.com/query) for API fetching, caching, and async state
 - [Axios](https://axios-http.com/) for HTTP requests to the F1 data API
 - [Material UI](https://mui.com/) and [Tailwind CSS v4](https://tailwindcss.com/) for the interface layer
+- [i18next](https://www.i18next.com/) and [react-i18next](https://react.i18next.com/) for English/Spanish internationalization with automatic browser language detection
+- [Anime.js](https://animejs.com/) for splash screen and UI animations
+- [React Helmet](https://github.com/nfl/react-helmet) for per-page head/SEO management
+- [React Icons](https://react-icons.github.io/react-icons/) for the icon set
+- [React Toastify](https://fkhadra.github.io/react-toastify/) for toast notifications
+- [React World Flags](https://github.com/smucode/react-world-flags) for country flag display
 - [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) for unit and component tests
 - [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [Husky](https://typicode.github.io/husky/), and [lint-staged](https://github.com/lint-staged/lint-staged) for code quality
 
-Typed query hooks live under `src/hooks/queries/`, shared API infrastructure lives in `src/services/api/`, and the route tree is defined in `src/app/router.tsx`. Development-only React Query and TanStack Router devtools are mounted automatically when running locally.
+Typed query hooks live under `src/hooks/queries/`, shared API infrastructure lives in `src/services/api/`, translation files live in `src/locales/`, and the route tree is defined in `src/app/router.tsx`. Development-only React Query and TanStack Router devtools are mounted automatically when running locally.
 
 ## Data sources
 
@@ -102,22 +114,25 @@ npm test -- --coverage
 
 The app uses **TanStack Router**, not React Router. Most pages preserve the selected season through the `?season=` search parameter.
 
-| Path                      | View                                                                 |
-| ------------------------- | -------------------------------------------------------------------- |
-| `/`                       | Landing page with race countdown, last race results, and latest news |
-| `/driverstandings`        | Drivers' championship standings                                      |
-| `/driver-comparison`      | Driver head-to-head comparison                                       |
-| `/constructorstandings`   | Constructors' championship standings                                 |
-| `/constructor-comparison` | Constructor head-to-head comparison                                  |
-| `/schedule`               | Full season calendar                                                 |
-| `/driver/:id`             | Driver profile                                                       |
-| `/constructor/:id`        | Constructor profile                                                  |
-| `/race`                   | Race results index                                                   |
-| `/race/:race`             | Race results for a round                                             |
-| `/qualifying`             | Qualifying index                                                     |
-| `/qualifying/:round`      | Qualifying results for a round                                       |
-| `/sprint/:round`          | Sprint results for a round                                           |
-| `*`                       | Custom 404 page with quick navigation links                          |
+| Path                            | View                                                                 |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `/`                             | Landing page with race countdown, last race results, and latest news |
+| `/driverstandings`              | Drivers' championship standings                                      |
+| `/driver-comparison`            | Driver head-to-head comparison                                       |
+| `/constructorstandings`         | Constructors' championship standings                                 |
+| `/constructor-comparison`       | Constructor head-to-head comparison                                  |
+| `/season-leaders`               | Unofficial season leaders across key categories                      |
+| `/schedule`                     | Full season calendar with add-to-calendar links                      |
+| `/driver/:id`                   | Driver profile                                                       |
+| `/constructor/:id`              | Constructor profile                                                  |
+| `/circuit/:id`                  | Circuit profile                                                      |
+| `/race`                         | Race results index                                                   |
+| `/race/:race`                   | Race results for a round                                             |
+| `/race/:race/driver/:driver`    | Individual driver race breakdown (tire strategy, pit stops)          |
+| `/qualifying`                   | Qualifying index with performance chart                              |
+| `/qualifying/:round`            | Qualifying results with session timeline for a round                 |
+| `/sprint/:round`                | Sprint results for a round                                           |
+| `*`                             | Custom 404 page with quick navigation links                          |
 
 Example URLs:
 
@@ -147,19 +162,22 @@ The same aliases are configured in both `vite.config.ts` and `tsconfig.json`:
 .
 ├── public/              # Static files copied as-is
 ├── src/
-│   ├── app/             # App shell, router, QueryClient
+│   ├── app/             # App shell, router, QueryClient, i18n setup, preferences
 │   ├── assets/          # Fonts, images, logos
 │   ├── components/      # Reusable UI building blocks
 │   ├── domain/f1/       # Season helpers, bios, images, team metadata
 │   ├── hooks/           # Custom hooks and query hooks
+│   ├── locales/         # i18n translation files (en, es)
 │   ├── pages/           # Routed pages
 │   ├── services/api/    # Axios client, API wrappers, query keys, tests
 │   ├── styles/          # Global styles and design tokens
+│   ├── test-utils/      # Shared test utilities and render helpers
 │   └── index.tsx        # React entry point
 ├── build/               # Production output directory
 ├── eslint.config.mjs    # ESLint flat config
 ├── tsconfig.json        # TypeScript config
 ├── vite.config.ts       # Vite + Vitest + Tailwind config
+├── wrangler.toml        # Cloudflare Workers/Pages config
 └── package.json
 ```
 
@@ -194,10 +212,12 @@ The mobile-first interface was designed in Figma. You can view the design file [
 ![TanStack Query](https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
 ![TanStack Router](https://img.shields.io/badge/TanStack%20Router-111827?style=for-the-badge&logoColor=white)
 ![Axios](https://img.shields.io/badge/axios-671ddf?style=for-the-badge&logo=axios&logoColor=white)
+![i18next](https://img.shields.io/badge/i18next-26A69A?style=for-the-badge&logo=i18next&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
 
 ## Security
 
