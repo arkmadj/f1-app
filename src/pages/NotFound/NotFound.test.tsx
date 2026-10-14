@@ -102,7 +102,7 @@ describe("NotFound", () => {
     expect(screen.getByText(/yellow flag/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /the page you requested is not on the current f1 app two circuit/i
+        /the page you requested is not on the current f1 app circuit/i
       )
     ).toBeInTheDocument();
     expect(
