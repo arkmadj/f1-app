@@ -44,8 +44,8 @@ function NotFound(): JSX.Element {
           404 — This lap went off track
         </h1>
         <p className="mx-auto mb-[34px] max-w-[680px] text-[clamp(1rem,2vw,1.15rem)] leading-[1.7] text-(--text-color2)">
-          The page you requested is not on the current F1 App Two circuit. Use
-          one of these shortcuts to get back into the race.
+          The page you requested is not on the current F1 App circuit. Use one
+          of these shortcuts to get back into the race.
         </p>
 
         <div

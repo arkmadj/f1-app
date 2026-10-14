@@ -1,14 +1,12 @@
-[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/ItzAle/f1-app/blob/main/README-es.md)
-
-# F1 App Two
+# F1 App
 
 A responsive Formula 1 companion app built with **React 18**, **TypeScript**, and **Vite 8**.
 
-**Live demo:** [formula1app-ale.vercel.app](https://formula1app-ale.vercel.app/)
+**Live demo:** [f1.ahmadjinadu.com](https://f1.ahmadjinadu.com/)
 
 ## Overview
 
-F1 App Two brings together the parts of the F1 season fans check most often in one place: championship standings, the full race calendar, session results, driver and constructor profiles, latest headlines, and head-to-head comparison views.
+F1 App brings together the parts of the F1 season fans check most often in one place: championship standings, the full race calendar, session results, driver and constructor profiles, latest headlines, and head-to-head comparison views.
 
 The current app supports **multiple seasons** through a shared URL search parameter and uses **2024** as the default season. In practice, the app ships with season selection support for **2020-2026**, and the selected season is preserved as you navigate.
 
@@ -73,7 +71,7 @@ No custom environment variables are required for the default local setup.
 ### Installation
 
 ```bash
-git clone https://github.com/ItzAle/f1-app.git
+git clone https://github.com/arkmadj/f1-app.git
 cd f1-app
 npm install
 ```
@@ -114,25 +112,25 @@ npm test -- --coverage
 
 The app uses **TanStack Router**, not React Router. Most pages preserve the selected season through the `?season=` search parameter.
 
-| Path                            | View                                                                 |
-| ------------------------------- | -------------------------------------------------------------------- |
-| `/`                             | Landing page with race countdown, last race results, and latest news |
-| `/driverstandings`              | Drivers' championship standings                                      |
-| `/driver-comparison`            | Driver head-to-head comparison                                       |
-| `/constructorstandings`         | Constructors' championship standings                                 |
-| `/constructor-comparison`       | Constructor head-to-head comparison                                  |
-| `/season-leaders`               | Unofficial season leaders across key categories                      |
-| `/schedule`                     | Full season calendar with add-to-calendar links                      |
-| `/driver/:id`                   | Driver profile                                                       |
-| `/constructor/:id`              | Constructor profile                                                  |
-| `/circuit/:id`                  | Circuit profile                                                      |
-| `/race`                         | Race results index                                                   |
-| `/race/:race`                   | Race results for a round                                             |
-| `/race/:race/driver/:driver`    | Individual driver race breakdown (tire strategy, pit stops)          |
-| `/qualifying`                   | Qualifying index with performance chart                              |
-| `/qualifying/:round`            | Qualifying results with session timeline for a round                 |
-| `/sprint/:round`                | Sprint results for a round                                           |
-| `*`                             | Custom 404 page with quick navigation links                          |
+| Path                         | View                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `/`                          | Landing page with race countdown, last race results, and latest news |
+| `/driverstandings`           | Drivers' championship standings                                      |
+| `/driver-comparison`         | Driver head-to-head comparison                                       |
+| `/constructorstandings`      | Constructors' championship standings                                 |
+| `/constructor-comparison`    | Constructor head-to-head comparison                                  |
+| `/season-leaders`            | Unofficial season leaders across key categories                      |
+| `/schedule`                  | Full season calendar with add-to-calendar links                      |
+| `/driver/:id`                | Driver profile                                                       |
+| `/constructor/:id`           | Constructor profile                                                  |
+| `/circuit/:id`               | Circuit profile                                                      |
+| `/race`                      | Race results index                                                   |
+| `/race/:race`                | Race results for a round                                             |
+| `/race/:race/driver/:driver` | Individual driver race breakdown (tire strategy, pit stops)          |
+| `/qualifying`                | Qualifying index with performance chart                              |
+| `/qualifying/:round`         | Qualifying results with session timeline for a round                 |
+| `/sprint/:round`             | Sprint results for a round                                           |
+| `*`                          | Custom 404 page with quick navigation links                          |
 
 Example URLs:
 
@@ -198,9 +196,14 @@ Coverage is available through `@vitest/coverage-v8`:
 npm test -- --coverage
 ```
 
-## Design
+## Deployment
 
-The mobile-first interface was designed in Figma. You can view the design file [here](https://www.figma.com/design/ODMeDrwZXAJ3uYMqaNU37N/Untitled?node-id=45-1226&t=FxrkAr6LKEDzR72J-1).
+The app is deployed as static assets on **Cloudflare Workers**. `wrangler.toml` configures the `f1` worker to serve the `build/` directory, so a production deploy is:
+
+```bash
+npm run build
+npx wrangler deploy
+```
 
 ## Technologies
 
@@ -216,7 +219,6 @@ The mobile-first interface was designed in Figma. You can view the design file [
 ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
-![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
 
 ## Security
