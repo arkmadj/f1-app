@@ -4,6 +4,8 @@ A responsive Formula 1 companion app built with **React 18**, **TypeScript**, an
 
 **Live demo:** [f1.ahmadjinadu.com](https://f1.ahmadjinadu.com/)
 
+![F1 App demo: home, driver and constructor standings, schedule, season leaders, and driver comparison](./docs/demo.gif)
+
 ## Overview
 
 F1 App brings together the parts of the F1 season fans check most often in one place: championship standings, the full race calendar, session results, driver and constructor profiles, latest headlines, and head-to-head comparison views.
